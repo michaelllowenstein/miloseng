@@ -1,0 +1,61 @@
+
+@if (submitted()) {
+<div class="card-surface p-10 text-center">
+    <div class="w-14 h-14 rounded-full bg-phosphor/10 border border-phosphor/30
+                flex items-center justify-center mx-auto mb-5">
+        <svg class="w-7 h-7 text-phosphor" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+        </svg>
+    </div>
+    <h3 class="font-display text-xl font-semibold text-bone mb-3">Message received</h3>
+    <p class="text-sm text-mist max-w-sm mx-auto">
+        I typically respond within 24–48 hours. In the meantime, feel free to
+        check out the portfolio or subscribe to the newsletter.
+    </p>
+</div>
+} @else {
+<div class="card-surface p-8">
+    <div class="space-y-5">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            <div>
+                <label class="block font-mono text-xs text-steel tracking-wider uppercase mb-2"
+                       for="ct-name">Name</label>
+                <input id="ct-name" type="text" class="input-field"
+                       placeholder="Your name" [(ngModel)]="form.name" />
+            </div>
+            <div>
+                <label class="block font-mono text-xs text-steel tracking-wider uppercase mb-2"
+                       for="ct-email">Email</label>
+                <input id="ct-email" type="email" class="input-field"
+                       placeholder="you&#64;example.com" [(ngModel)]="form.email" />
+            </div>
+        </div>
+
+        <div>
+            <label class="block font-mono text-xs text-steel tracking-wider uppercase mb-2"
+                   for="ct-subject">Subject</label>
+            <input id="ct-subject" type="text" class="input-field"
+                   placeholder="Architecture consulting, collaboration, etc."
+                   [(ngModel)]="form.subject" />
+        </div>
+
+        <div>
+            <label class="block font-mono text-xs text-steel tracking-wider uppercase mb-2"
+                   for="ct-message">Message</label>
+            <textarea id="ct-message" class="input-field min-h-[160px] resize-y"
+                      placeholder="Tell me what you're working on..."
+                      [(ngModel)]="form.message"></textarea>
+        </div>
+
+        <button class="btn-primary w-full justify-center"
+                [disabled]="!form.email.trim() || !form.message.trim()"
+                (click)="send()">
+            <span>Send message</span>
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+            </svg>
+        </button>
+    </div>
+</div>
+}

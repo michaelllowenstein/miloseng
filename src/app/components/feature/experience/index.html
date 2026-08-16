@@ -1,0 +1,39 @@
+<section class="py-20 border-y border-steel/10">
+    <div class="section-container">
+        <h2 appScrollAnimate="up"
+            class="font-display text-xl font-semibold text-bone mb-10 flex items-center gap-3">
+            <span class="w-8 h-px bg-phosphor/40"></span>
+            Career Experience
+        </h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            @for (exp of experiences; track exp.company; let i = $index) {
+            <div appScrollAnimate="up" [animateDelay]="i * 0.1" class="card-surface p-6 group">
+                <div class="flex items-center justify-between mb-3">
+                    <span class="font-mono text-[10px] text-phosphor/60 tracking-wider uppercase">
+                        {{ exp.period }}
+                    </span>
+                    <span class="font-mono text-[10px] text-steel tracking-wider">
+                        {{ exp.location }}
+                    </span>
+                </div>
+                <h3 class="font-display text-base font-semibold text-bone mb-1
+                         group-hover:text-phosphor transition-colors duration-300">
+                    {{ exp.title }}
+                </h3>
+                <p class="font-mono text-xs text-phosphor/50 mb-3">{{ exp.company }}</p>
+                <p class="text-xs text-mist leading-relaxed mb-4">{{ exp.description }}</p>
+
+                <div class="flex flex-wrap gap-1.5">
+                    @for (tech of exp.tech; track tech) {
+                    <span class="px-2 py-0.5 rounded-full bg-phosphor/5 border border-phosphor/10
+                               font-mono text-[10px] text-phosphor/60">
+                        {{ tech }}
+                    </span>
+                    }
+                </div>
+            </div>
+            }
+        </div>
+    </div>
+</section>

@@ -1,0 +1,59 @@
+<!-- ═══════ PAGE HEADER ═══════ -->
+<section class="pt-28 pb-16">
+    <div class="section-container">
+        <p class="font-mono text-xs text-steel tracking-widest uppercase mb-3 animate-fade-in">
+            ~/projects
+        </p>
+        <h1 class="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-bone
+                   leading-tight animate-fade-up" style="animation-delay: 0.1s; opacity: 0;">
+            Ongoing
+            <span class="text-gradient-phosphor">projects</span>
+        </h1>
+    </div>
+</section>
+
+<!-- ═══════ PROJECT PREVIEW GRID ═══════ -->
+<section class="pb-20">
+    <div class="section-container">
+        <h2 appScrollAnimate="up"
+            class="font-display text-xl font-semibold text-bone mb-10 flex items-center gap-3">
+            <span class="w-8 h-px bg-phosphor/40"></span>
+            Active Initiatives
+        </h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            @for (proj of projects; track proj.id; let i = $index) {
+            <div appScrollAnimate="up" [animateDelay]="i * 0.08">
+                <app-project [project]="proj" />
+            </div>
+            }
+        </div>
+    </div>
+</section>
+
+<!-- ═══════ ROI DASHBOARD (React Island) ═══════ -->
+<section class="py-24 border-t border-steel/10">
+    <div class="section-container">
+        <div class="mb-10">
+            <p appScrollAnimate="up"
+               class="font-mono text-xs text-steel tracking-widest uppercase mb-3">
+                Metrics
+            </p>
+            <h2 appScrollAnimate="up" [animateDelay]="0.1"
+                class="font-display text-2xl md:text-3xl font-bold text-bone mb-4">
+                Agentic Platform ROI
+            </h2>
+            <p appScrollAnimate="up" [animateDelay]="0.2"
+               class="text-sm text-mist leading-relaxed max-w-2xl">
+                A comparative analysis of the developer platforms and tooling suites I've built
+                and adopted — measuring velocity uplift, code quality gains, cost savings,
+                and team adoption across five distinct engineering initiatives.
+            </p>
+        </div>
+
+        <!-- React island mount point -->
+        <div appScrollAnimate="up" [animateDelay]="0.3">
+            <app-bridge [component]="roiDashboardComponent()" [props]="{}"></app-bridge>
+        </div>
+    </div>
+</section>

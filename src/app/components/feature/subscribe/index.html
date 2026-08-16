@@ -1,0 +1,49 @@
+@if (submitted()) {
+<!-- Success state -->
+<div class="card-surface p-8 text-center">
+    <div class="w-12 h-12 rounded-full bg-phosphor/10 border border-phosphor/30
+                flex items-center justify-center mx-auto mb-4">
+        <svg class="w-6 h-6 text-phosphor" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+        </svg>
+    </div>
+    <h3 class="font-display text-lg font-semibold text-bone mb-2">You're on the list</h3>
+    <p class="text-sm text-mist">
+        Watch for the first dispatch in your inbox. No confirmation email — I respect your time.
+    </p>
+</div>
+} @else {
+<div class="card-surface p-8">
+    <h3 class="font-display text-lg font-semibold text-bone mb-6">Subscribe</h3>
+
+    <div class="space-y-4">
+        <div>
+            <label class="block font-mono text-xs text-steel tracking-wider uppercase mb-2"
+                   for="nl-name">Name</label>
+            <input id="nl-name" type="text" class="input-field"
+                   placeholder="Ada Lovelace" [(ngModel)]="name" />
+        </div>
+
+        <div>
+            <label class="block font-mono text-xs text-steel tracking-wider uppercase mb-2"
+                   for="nl-email">Email</label>
+            <input id="nl-email" type="email" class="input-field"
+                   placeholder="ada&#64;example.com" [(ngModel)]="email" />
+        </div>
+
+        <button class="btn-primary w-full justify-center mt-2"
+                [disabled]="!email.trim()"
+                (click)="subscribe()">
+            <span>Subscribe</span>
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+            </svg>
+        </button>
+    </div>
+
+    <p class="text-[10px] text-steel mt-4 text-center font-mono">
+        Unsubscribe anytime. Your data stays private.
+    </p>
+</div>
+}

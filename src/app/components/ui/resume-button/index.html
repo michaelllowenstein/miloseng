@@ -1,0 +1,41 @@
+@if (variant === 'primary') {
+<!-- Full CTA button — about page, contact page -->
+<a [href]="href" [download]="filename" (click)="onDownload()"
+   class="btn-primary group">
+    <svg class="w-4 h-4 transition-transform duration-300 group-hover:-translate-y-0.5"
+         fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+    </svg>
+    <span>Download Resumé</span>
+</a>
+}
+
+@if (variant === 'compact') {
+<!-- Navbar-sized link — persistent, unobtrusive -->
+<a [href]="href" [download]="filename" (click)="onDownload()"
+   class="hidden md:inline-flex items-center gap-1.5 px-3 py-1.5 rounded
+          bg-phosphor/5 border border-phosphor/15 font-mono text-[11px] text-phosphor/70
+          tracking-wide hover:bg-phosphor/10 hover:border-phosphor/30 hover:text-phosphor
+          transition-all duration-200 group">
+    <svg class="w-3 h-3 transition-transform duration-300 group-hover:-translate-y-0.5"
+         fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+    </svg>
+    <span>Resumé</span>
+</a>
+}
+
+@if (variant === 'inline') {
+<!-- Inline text link — mobile menu, footer, anywhere in prose -->
+<a [href]="href" [download]="filename" (click)="onDownload()"
+   class="inline-flex items-center gap-1.5 font-mono text-xs text-phosphor/70
+          hover:text-phosphor transition-colors duration-200">
+    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+    </svg>
+    <span>Download Resumé</span>
+</a>
+}

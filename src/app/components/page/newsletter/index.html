@@ -1,0 +1,63 @@
+<section class="pt-28 pb-24 min-h-screen">
+    <div class="section-container max-w-3xl">
+        <!-- Header -->
+        <p class="font-mono text-xs text-steel tracking-widest uppercase mb-3 animate-fade-in">
+            ~/newsletter
+        </p>
+        <h1 class="font-display text-3xl md:text-4xl font-bold text-bone leading-tight mb-4
+                   animate-fade-up" style="animation-delay: 0.1s; opacity: 0;">
+            Engineering dispatches
+        </h1>
+        <p class="text-mist text-base leading-relaxed mb-12
+                  animate-fade-up" style="animation-delay: 0.25s; opacity: 0;">
+            Occasional deep-dives on distributed systems architecture, developer tooling,
+            agentic coding workflows, and lessons learned from the insurance technology trenches.
+            No spam, no fluff — just the signal.
+        </p>
+
+        <!-- What to expect -->
+        <div appScrollAnimate="up" class="card-surface p-8 mb-12">
+            <h2 class="font-display text-lg font-semibold text-bone mb-6 flex items-center gap-3">
+                <span class="w-6 h-px bg-phosphor/40"></span>
+                What you'll get
+            </h2>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                @for (topic of topics; track topic.title) {
+                <div class="flex items-start gap-3">
+                    <span class="mt-1 w-2 h-2 rounded-full bg-phosphor/30 shrink-0"></span>
+                    <div>
+                        <p class="text-sm font-medium text-bone mb-1">{{ topic.title }}</p>
+                        <p class="text-xs text-mist leading-relaxed">{{ topic.desc }}</p>
+                    </div>
+                </div>
+                }
+            </div>
+        </div>
+
+        <!-- Subscribe form (feature) -->
+        <div appScrollAnimate="up" [animateDelay]="0.15">
+            <app-subscribe />
+        </div>
+
+        <!-- Past issues preview -->
+        <div appScrollAnimate="up" [animateDelay]="0.2" class="mt-16">
+            <h2 class="font-display text-lg font-semibold text-bone mb-6 flex items-center gap-3">
+                <span class="w-6 h-px bg-phosphor/40"></span>
+                Recent dispatches
+            </h2>
+
+            <div class="space-y-4">
+                @for (issue of pastIssues; track issue.title) {
+                <div class="card-surface p-5 flex items-start justify-between gap-4">
+                    <div>
+                        <p class="text-sm font-medium text-bone mb-1">{{ issue.title }}</p>
+                        <p class="text-xs text-mist">{{ issue.preview }}</p>
+                    </div>
+                    <span class="font-mono text-[10px] text-steel shrink-0 mt-1">{{ issue.date }}</span>
+                </div>
+                }
+            </div>
+        </div>
+    </div>
+</section>

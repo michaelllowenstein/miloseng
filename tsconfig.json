@@ -1,0 +1,57 @@
+/* To learn more about Typescript configuration file: https://www.typescriptlang.org/docs/handbook/tsconfig-json.html. */
+/* To learn more about Angular compiler options: https://angular.dev/reference/configs/angular-compiler-options. */
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "strict": true,
+    "noImplicitOverride": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "skipLibCheck": true,
+    "isolatedModules": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "target": "ES2022",
+    "module": "preserve",
+    "jsx": "react-jsx",
+    "rootDir": "./",
+    "paths": {
+      "@app/*":          ["./src/app/*"],
+      "@routes":       ["./src/app/routes.ts"],
+      "@core/*":         ["./src/app/core/*"],
+      "@interceptors/*": ["./src/app/core/interceptors/*"],
+      "@directives/*":   ["./src/app/core/directives/*"],
+      "@guards/*":       ["./src/app/core/guards/*"],
+      "@services/*":     ["./src/app/core/services/*"],
+      "@components/*":   ["./src/app/components/*"],
+      "@page/*":         ["./src/app/components/page/*"],
+      "@home":           ["./src/app/components/page/home"],
+      "@about":          ["./src/app/components/page/about"],
+      "@projects":       ["./src/app/components/page/projects"],
+      "@newsletter":     ["./src/app/components/page/newsletter"],
+      "@contact":        ["./src/app/components/page/contact"],
+      "@ui/*":           ["./src/app/components/ui/*"],
+      "@layout/*":       ["./src/app/components/layout/*"],
+      "@feature/*":      ["./src/app/components/feature/*"],
+      "@factory/*":      ["./src/app/components/factory/*"],
+      "@schema/*":       ["./src/app/core/schema/*"],
+      "@schema":         ["./src/app/core/schema"],
+      "@animations/*":   ["./src/app/animations/*"],
+      "@env/*":          ["./src/envs/*"]
+    }
+  },
+  "angularCompilerOptions": {
+    "enableI18nLegacyMessageIdFormat": false,
+    "strictInjectionParameters": true,
+    "strictInputAccessModifiers": true,
+    "typeCheckHostBindings": true,
+    "strictTemplates": true
+  },
+  "files": [],
+  "references": [
+    {
+      "path": "./tsconfig.app.json"
+    }
+  ]
+}

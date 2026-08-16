@@ -1,0 +1,84 @@
+{
+  "name": "miloseng",
+  "version": "0.0.0",
+  "scripts": {
+    "ng": "ng",
+    "start": "ng serve",
+    "build": "ng build",
+    "build:install": "npm install --legacy-peer-deps",
+    "local": "ng serve --configuration local --port 4444",
+    "build:local": "ng build --configuration local",
+    "watch": "ng build --watch --configuration local",
+    "build:prod": "ng build --configuration production",
+    "ngo:service": "node scripts/gen.mjs --service",
+    "ngo:guard": "node scripts/gen.mjs --guard",
+    "ngo:pipe": "node scripts/gen.mjs --pipe",
+    "ngo:comp": "node scripts/gen.mjs",
+    "ngo": "node scripts/gen.mjs",
+    "test": "ng test",
+    "lint": "ng lint"
+  },
+  "prettier": {
+    "printWidth": 100,
+    "singleQuote": true,
+    "overrides": [
+      {
+        "files": "*.html",
+        "options": {
+          "parser": "angular"
+        }
+      }
+    ]
+  },
+  "private": true,
+  "dependencies": {
+    "@angular/animations": "^20.1.8",
+    "@angular/common": "^20.3.0",
+    "@angular/compiler": "^20.3.0",
+    "@angular/core": "^20.3.0",
+    "@angular/fire": "^20.0.1",
+    "@angular/forms": "^20.3.0",
+    "@angular/platform-browser": "^20.3.0",
+    "@angular/router": "^20.3.0",
+    "@floating-ui/dom": "^1.8.0",
+    "@ng-icons/core": "^35.0.1",
+    "@ng-icons/heroicons": "^35.0.1",
+    "firebase": "^12.17.1",
+    "firebase-admin": "^14.2.0",
+    "html2pdf.js": "^0.14.0",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "react-is": "^19.2.8",
+    "recharts": "^3.10.1",
+    "rxjs": "~7.8.0",
+    "tslib": "^2.3.0"
+  },
+  "devDependencies": {
+    "@angular/build": "^20.3.31",
+    "@angular/cli": "^20.3.31",
+    "@angular/compiler-cli": "^20.3.0",
+    "@eslint/js": "^10.0.1",
+    "@tailwindcss/vite": "^4.3.3",
+    "@testing-library/angular": "^19.4.2",
+    "@testing-library/jest-dom": "^7.0.1",
+    "@types/firebase": "^2.4.32",
+    "@types/jasmine": "~5.1.0",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.4",
+    "angular-eslint": "^22.1.0",
+    "autoprefixer": "^10.5.4",
+    "eslint": "^10.8.1",
+    "eslint-plugin-playwright": "^2.11.0",
+    "jasmine-core": "~5.9.0",
+    "karma": "~6.4.0",
+    "karma-chrome-launcher": "~3.2.0",
+    "karma-coverage": "~2.2.0",
+    "karma-jasmine": "~5.1.0",
+    "karma-jasmine-html-reporter": "~2.1.0",
+    "postcss": "^8.5.26",
+    "prettier": "^3.9.6",
+    "tailwindcss": "^3.4.19",
+    "typescript": "~5.9.2",
+    "typescript-eslint": "^8.67.0"
+  }
+}

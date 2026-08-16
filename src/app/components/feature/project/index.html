@@ -1,0 +1,31 @@
+<div class="card-surface p-6 h-full flex flex-col group">
+    <div class="flex items-center justify-between mb-3">
+        <div class="flex items-center gap-2">
+            <span class="w-2.5 h-2.5 rounded-full" [style.backgroundColor]="project.color"></span>
+            <h3 class="font-display text-base font-semibold text-bone
+                       group-hover:text-phosphor transition-colors duration-300">
+                {{ project.name }}
+            </h3>
+        </div>
+        <span class="px-2 py-0.5 rounded-full font-mono text-[9px] tracking-wider uppercase"
+              [class]="project.status === 'active'
+                ? 'bg-phosphor/10 text-phosphor/70 border border-phosphor/20'
+                : project.status === 'maintained'
+                  ? 'bg-signal/10 text-signal/70 border border-signal/20'
+                  : 'bg-ember/10 text-ember/70 border border-ember/20'">
+            {{ project.status }}
+        </span>
+    </div>
+
+    <p class="font-mono text-xs text-phosphor/50 mb-2">{{ project.tagline }}</p>
+    <p class="text-xs text-mist leading-relaxed mb-4 flex-1">{{ project.description }}</p>
+
+    <div class="flex flex-wrap gap-1.5 mt-auto">
+        @for (t of project.tech; track t) {
+        <span class="px-2 py-0.5 rounded-full bg-phosphor/5 border border-phosphor/10
+                     font-mono text-[10px] text-phosphor/60">
+            {{ t }}
+        </span>
+        }
+    </div>
+</div>

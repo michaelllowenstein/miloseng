@@ -1,0 +1,52 @@
+<nav class="fixed top-0 left-0 right-0 z-50 border-b border-steel/20 bg-void/80 backdrop-blur-xl">
+    <div class="section-container flex items-center justify-between h-16">
+        <!-- Logo / Brand -->
+        <a routerLink="/" class="flex items-center gap-2 group">
+            <span class="w-2.5 h-2.5 rounded-full bg-phosphor animate-glow-pulse"></span>
+            <span class="font-mono text-sm text-phosphor tracking-widest group-hover:glow-text transition-all">
+                miloSENG
+            </span>
+            <span class="font-mono text-xs text-steel hidden sm:inline">
+                ~/portfolio
+            </span>
+        </a>
+
+        <!-- Desktop nav -->
+        <div class="hidden md:flex items-center gap-1">
+            @for (link of navLinks; track link.path) {
+            <a [routerLink]="link.path" routerLinkActive="text-phosphor bg-phosphor/5"
+                [routerLinkActiveOptions]="{ exact: link.exact }" class="px-4 py-2 rounded font-mono text-xs tracking-wide text-mist
+                     hover:text-phosphor hover:bg-phosphor/5 transition-all duration-200">
+                {{ link.label }}
+            </a>
+            }
+        </div>
+
+        <!-- Mobile toggle -->
+        <button class="md:hidden p-2 text-mist hover:text-phosphor transition-colors"
+            (click)="mobileOpen.set(!mobileOpen())" [attr.aria-expanded]="mobileOpen()" aria-label="Toggle navigation">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                @if (mobileOpen()) {
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12" />
+                } @else {
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 8h16M4 16h16" />
+                }
+            </svg>
+        </button>
+    </div>
+
+    <!-- Mobile menu -->
+    @if (mobileOpen()) {
+    <div class="md:hidden border-t border-steel/20 bg-void/95 backdrop-blur-xl">
+        <div class="section-container py-4 flex flex-col gap-1">
+            @for (link of navLinks; track link.path) {
+            <a [routerLink]="link.path" routerLinkActive="text-phosphor"
+                [routerLinkActiveOptions]="{ exact: link.exact }" (click)="mobileOpen.set(false)" class="px-4 py-3 rounded font-mono text-sm text-mist
+                       hover:text-phosphor hover:bg-phosphor/5 transition-all">
+                {{ link.label }}
+            </a>
+            }
+        </div>
+    </div>
+    }
+</nav>

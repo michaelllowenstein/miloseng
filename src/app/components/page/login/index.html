@@ -1,0 +1,33 @@
+<div class="min-h-screen bg-slate-950 flex items-center justify-center px-6">
+  <div class="w-full max-w-sm">
+    <div class="text-center mb-8">
+      <p class="font-mono text-2xl font-bold text-slate-100"><span class="text-indigo-400">~/</span>admin</p>
+      <p class="text-sm text-slate-500 mt-1">Sign in to access the control panel</p>
+    </div>
+    <form [formGroup]="form" (ngSubmit)="signIn()" class="space-y-4">
+      <div>
+        <label class="field-label">Email</label>
+        <input formControlName="email" type="email" placeholder="admin@example.com"
+               autocomplete="email" class="input-base" [class.border-red-500]="showErr('email')">
+      </div>
+      <div>
+        <label class="field-label">Password</label>
+        <input formControlName="password" type="password" placeholder="••••••••"
+               autocomplete="current-password" class="input-base" [class.border-red-500]="showErr('password')">
+      </div>
+      @if (authError()) {
+        <div class="p-3 rounded-lg bg-red-900/20 border border-red-700/40 text-red-400 text-sm">{{ authError() }}</div>
+      }
+      <button type="submit" [disabled]="loading()" class="btn-primary w-full justify-center py-3">
+        @if (loading()) {
+          <svg class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/>
+          </svg>
+          Signing in…
+        } @else { Sign in → }
+      </button>
+    </form>
+    <p class="text-center text-xs text-slate-600 mt-8">Secured by Firebase Authentication</p>
+  </div>
+</div>
