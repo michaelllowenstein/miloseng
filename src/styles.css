@@ -153,6 +153,22 @@
     @apply text-phosphor/80 hover:text-phosphor underline decoration-phosphor/20
            hover:decoration-phosphor/50 transition-colors;
   }
+
+    /* Editable CMS regions — subtle dashed outline on hover */
+  .editable-region {
+    position: relative;
+    transition: outline-color 0.2s ease;
+    outline: 1px dashed transparent;
+    outline-offset: 4px;
+  }
+ 
+  .editable-region:hover {
+    outline-color: rgba(51, 255, 136, 0.15);
+  }
+ 
+  .editable-region:active {
+    outline-color: rgba(51, 255, 136, 0.3);
+  }
  
 }
 

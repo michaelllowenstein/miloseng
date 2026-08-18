@@ -1,14 +1,17 @@
 <section class="pt-28 pb-24 min-h-screen">
     <div class="section-container max-w-3xl">
         <!-- Header -->
-        <p class="font-mono text-xs text-steel tracking-widest uppercase mb-3 animate-fade-in">
+        <p cmsField="breadcrumb" cmsPath="newsletter/header"
+           class="font-mono text-xs text-steel tracking-widest uppercase mb-3 animate-fade-in">
             ~/newsletter
         </p>
-        <h1 class="font-display text-3xl md:text-4xl font-bold text-bone leading-tight mb-4
+        <h1 cmsField="headline" cmsPath="newsletter/header"
+            class="font-display text-3xl md:text-4xl font-bold text-bone leading-tight mb-4
                    animate-fade-up" style="animation-delay: 0.1s; opacity: 0;">
             Engineering dispatches
         </h1>
-        <p class="text-mist text-base leading-relaxed mb-12
+        <p cmsField="subline" cmsPath="newsletter/header"
+            class="text-mist text-base leading-relaxed mb-12
                   animate-fade-up" style="animation-delay: 0.25s; opacity: 0;">
             Occasional deep-dives on distributed systems architecture, developer tooling,
             agentic coding workflows, and lessons learned from the insurance technology trenches.
@@ -19,7 +22,7 @@
         <div appScrollAnimate="up" class="card-surface p-8 mb-12">
             <h2 class="font-display text-lg font-semibold text-bone mb-6 flex items-center gap-3">
                 <span class="w-6 h-px bg-phosphor/40"></span>
-                What you'll get
+                <span cmsField="whatYouGet" cmsPath="newsletter">What you\'ll get</span>
             </h2>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -44,7 +47,7 @@
         <div appScrollAnimate="up" [animateDelay]="0.2" class="mt-16">
             <h2 class="font-display text-lg font-semibold text-bone mb-6 flex items-center gap-3">
                 <span class="w-6 h-px bg-phosphor/40"></span>
-                Recent dispatches
+                <span cmsField="recentLabel" cmsPath="newsletter">Recent dispatches</span>
             </h2>
 
             <div class="space-y-4">

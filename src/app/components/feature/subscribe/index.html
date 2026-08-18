@@ -14,7 +14,13 @@
 </div>
 } @else {
 <div class="card-surface p-8">
-    <h3 class="font-display text-lg font-semibold text-bone mb-6">Subscribe</h3>
+    <h3 cmsField="heading" cmsPath="layout/subscribe"
+        class="font-display text-lg font-semibold text-bone mb-2">Stay in the loop</h3>
+
+    <p cmsField="subline" cmsPath="layout/subscribe"
+       class="text-sm text-mist mb-6">
+        Architecture deep-dives, tooling breakdowns, and field reports from distributed systems engineering — straight to your inbox.
+    </p>
 
     <div class="space-y-4">
         <div>
@@ -34,7 +40,7 @@
         <button class="btn-primary w-full justify-center mt-2"
                 [disabled]="!email.trim()"
                 (click)="subscribe()">
-            <span>Subscribe</span>
+            <span>{{ buttonLabel() }}</span>
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                       d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
@@ -42,7 +48,8 @@
         </button>
     </div>
 
-    <p class="text-[10px] text-steel mt-4 text-center font-mono">
+    <p cmsField="disclaimer" cmsPath="layout/subscribe"
+       class="text-[10px] text-steel mt-4 text-center font-mono">
         Unsubscribe anytime. Your data stays private.
     </p>
 </div>

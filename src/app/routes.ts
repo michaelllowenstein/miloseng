@@ -1,10 +1,9 @@
 import { Routes } from '@angular/router';
 import { routeAnimationIndex } from '@schema/utils/route-order';
-import { authGuard } from '@guards/auth';
 
 export const ROUTE_ORDER = [
   'HomePage', 'AboutMePage', 'ProjectsPage', 'ProjectPage',
-  'NewsletterPage', 'ContactMePage', 'LoginPage', 'AdminPage'
+  'NewsletterPage', 'ContactMePage'
 ];
 
 export const routes: Routes = [
@@ -43,19 +42,5 @@ export const routes: Routes = [
     loadComponent: () => import('@components/page/contact').then(m => m.ContactMePage),
     data: { animation: routeAnimationIndex('contact') },
     title: 'Contact Me'
-  },
-  {
-    path: 'admin',
-    loadComponent: () => import('@page/admin').then(m => m.AdminPage),
-    data: { animation: routeAnimationIndex('admin') },
-    canActivate: [authGuard],
-    title: 'Admin',
-  },
-  {
-    path: 'login',
-    loadComponent: () =>
-      import('@page/login').then(m => m.LoginPage),
-    title: 'Sign In',
-  },
-  { path: '**', redirectTo: 'home' },
+  }
 ];

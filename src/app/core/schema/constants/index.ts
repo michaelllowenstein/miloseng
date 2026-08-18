@@ -3,12 +3,8 @@
 
 import { BlogArticle } from "@schema/models";
 
-export const DB_ROOT          = 'public';
+export const DB_ROOT          = '';
 export const CONTENT_ROOT     = `${DB_ROOT}/siteContent`;
-export const BLOG_ROOT        = `${DB_ROOT}/blog`;
-export const PROFILES_ROOT    = `${DB_ROOT}/profiles`;
-export const NAV_MEMBERS_PATH = `${DB_ROOT}/nav/members`;
-export const CALCULATOR_CONFIG_ROOT = `${DB_ROOT}/calcConfig`;
 
 export const POSTS: BlogArticle[] = [
   {
@@ -183,3 +179,5 @@ export const POSTS: BlogArticle[] = [
 ];
 
 export const INQUIRY_SUB_PREFIX = 'INQUIRY FROM WEBSITE:';
+
+export * from './site-defaults';

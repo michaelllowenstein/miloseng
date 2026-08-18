@@ -21,6 +21,7 @@ export type { Infra }       from './infra';
 export type { Portfolio }   from './portfolio';
 export type { Analytics }   from './analytics';
 export type { Newsletter }  from './newsletter';
+export type { Site }  from './site';
 
 // ── Flat re-exports (backward-compatible aliases) ─────────────────────────────
 
@@ -46,3 +47,9 @@ export type {
   UpdateArticleInput,
   Subscriber, SubscribeRequest, UnsubscribeRequest, BlogArticle, Article, BlogEntry, Feed
 }                                                                     from './newsletter';
+
+// Site 
+export type {
+  SectionHeader, LandingHero, Capability, QuickFact, Experience, AboutBio, TimelineRole, AboutContent, ContactChannel, ContactContent, ContactHeader, ResponseTime, NewsletterTopic, NewsletterContent, NewsletterHeader, ProjectPreviewContent, ProjectsContent, RoiSection,
+  NavLink, FooterContent, SubscribeContent, SiteContent
+} from './site';

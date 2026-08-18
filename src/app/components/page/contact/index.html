@@ -1,83 +1,109 @@
 <section class="pt-28 pb-24 min-h-screen">
-    <div class="section-container max-w-4xl">
-        <!-- Header -->
-        <p class="font-mono text-xs text-steel tracking-widest uppercase mb-3 animate-fade-in">
-            ~/contact
-        </p>
-        <h1 class="font-display text-3xl md:text-4xl font-bold text-bone leading-tight mb-4
-                   animate-fade-up" style="animation-delay: 0.1s; opacity: 0;">
-            Let's connect
-        </h1>
-        <p class="text-mist text-base leading-relaxed mb-12 max-w-2xl
-                  animate-fade-up" style="animation-delay: 0.25s; opacity: 0;">
-            Whether it's architecture consulting, developer tooling collaboration,
-            or a conversation about agentic coding workflows — I'd enjoy hearing from you.
-        </p>
+  <div class="section-container max-w-4xl">
+    <p
+      cmsField="breadcrumb"
+      cmsPath="contact/header"
+      class="font-mono text-xs text-steel tracking-widest uppercase mb-3 animate-fade-in">
+      ~/contact
+    </p>
 
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
-            <!-- Contact form (feature) -->
-            <div class="lg:col-span-7">
-                <div appScrollAnimate="up">
-                    <app-email />
-                </div>
-            </div>
+    <h1
+      cmsField="headline"
+      cmsPath="contact/header"
+      class="font-display text-3xl md:text-4xl font-bold text-bone leading-tight mb-4
+             animate-fade-up"
+      style="animation-delay: 0.1s; opacity: 0;">
+      Let's connect
+    </h1>
 
-            <!-- Sidebar: channels -->
-            <div class="lg:col-span-5 space-y-6">
-                <div appScrollAnimate="up" [animateDelay]="0.1" class="card-surface p-6">
-                    <h3 class="font-mono text-xs text-steel tracking-widest uppercase mb-5">
-                        Direct Channels
-                    </h3>
-                    <div class="space-y-4">
-                        @for (ch of channels; track ch.label) {
-                        <a [href]="ch.href" [target]="ch.external ? '_blank' : '_self'"
-                           [attr.rel]="ch.external ? 'noopener' : null"
-                           class="flex items-center gap-3 group">
-                            <div class="w-9 h-9 rounded-lg bg-phosphor/5 border border-phosphor/10
-                                        flex items-center justify-center shrink-0
-                                        group-hover:bg-phosphor/10 group-hover:border-phosphor/30
-                                        transition-all duration-300">
-                                <span class="text-sm">{{ ch.icon }}</span>
-                            </div>
-                            <div>
-                                <p class="text-xs text-bone group-hover:text-phosphor transition-colors">
-                                    {{ ch.label }}
-                                </p>
-                                <p class="font-mono text-[10px] text-steel">{{ ch.detail }}</p>
-                            </div>
-                        </a>
-                        }
-                    </div>
-                </div>
+    <p
+      cmsField="subline"
+      cmsPath="contact/header"
+      class="text-mist text-base leading-relaxed mb-12 max-w-2xl animate-fade-up"
+      style="animation-delay: 0.25s; opacity: 0;">
+      Whether it's architecture consulting, developer tooling collaboration,
+      or a conversation about agentic coding workflows — I'd enjoy hearing from you.
+    </p>
 
-                <div appScrollAnimate="up" [animateDelay]="0.2" class="card-surface p-6">
-                    <h3 class="font-mono text-xs text-steel tracking-widest uppercase mb-4">
-                        Response Time
-                    </h3>
-                    <div class="flex items-baseline gap-2">
-                        <span class="font-display text-2xl font-bold text-phosphor">&lt; 48h</span>
-                        <span class="text-xs text-mist">typical reply</span>
-                    </div>
-                    <p class="text-xs text-steel mt-3 leading-relaxed">
-                        Faster for architecture consulting inquiries
-                        and active collaboration threads.
-                    </p>
-                </div>
-
-                <div appScrollAnimate="up" [animateDelay]="0.3" class="card-surface p-6">
-                    <h3 class="font-mono text-xs text-steel tracking-widest uppercase mb-4">
-                        Open To
-                    </h3>
-                    <div class="flex flex-wrap gap-2">
-                        @for (tag of openTo; track tag) {
-                        <span class="px-3 py-1 rounded-full bg-phosphor/5 border border-phosphor/10
-                                     font-mono text-[10px] text-phosphor/60">
-                            {{ tag }}
-                        </span>
-                        }
-                    </div>
-                </div>
-            </div>
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
+      <div class="lg:col-span-7">
+        <div appScrollAnimate="up">
+          <app-email />
         </div>
+      </div>
+
+      <div class="lg:col-span-5 space-y-6">
+        <div appScrollAnimate="up" [animateDelay]="0.1" class="card-surface p-6">
+          <h3 class="font-mono text-xs text-steel tracking-widest uppercase mb-5">
+            Direct Channels
+          </h3>
+
+          <div class="space-y-4">
+            @for (ch of channels; track ch.label) {
+              <a
+                [href]="ch.href"
+                [target]="ch.external ? '_blank' : '_self'"
+                [attr.rel]="ch.external ? 'noopener' : null"
+                class="flex items-center gap-3 group">
+                <div
+                  class="w-9 h-9 rounded-lg bg-phosphor/5 border border-phosphor/10
+                         flex items-center justify-center shrink-0
+                         group-hover:bg-phosphor/10 group-hover:border-phosphor/30
+                         transition-all duration-300">
+                  <span class="text-sm">{{ ch.icon }}</span>
+                </div>
+                <div>
+                  <p class="text-xs text-bone group-hover:text-phosphor transition-colors">
+                    {{ ch.label }}
+                  </p>
+                  <p class="font-mono text-[10px] text-steel">{{ ch.detail }}</p>
+                </div>
+              </a>
+            }
+          </div>
+        </div>
+
+        <div appScrollAnimate="up" [animateDelay]="0.2" class="card-surface p-6">
+          <h3 class="font-mono text-xs text-steel tracking-widest uppercase mb-4">
+            Response Time
+          </h3>
+          <div class="flex items-baseline gap-2">
+            <span
+              cmsField="value"
+              cmsPath="contact/responseTime"
+              class="font-display text-2xl font-bold text-phosphor">
+              &lt; 48h
+            </span>
+            <span
+              cmsField="label"
+              cmsPath="contact/responseTime"
+              class="text-xs text-mist">
+              typical reply
+            </span>
+          </div>
+          <p
+            cmsField="description"
+            cmsPath="contact/responseTime"
+            class="text-xs text-steel mt-3 leading-relaxed">
+            Faster for architecture consulting inquiries and active collaboration threads.
+          </p>
+        </div>
+
+        <div appScrollAnimate="up" [animateDelay]="0.3" class="card-surface p-6">
+          <h3 class="font-mono text-xs text-steel tracking-widest uppercase mb-4">
+            Open To
+          </h3>
+          <div class="flex flex-wrap gap-2">
+            @for (tag of openTo; track tag) {
+              <span
+                class="px-3 py-1 rounded-full bg-phosphor/5 border border-phosphor/10
+                       font-mono text-[10px] text-phosphor/60">
+                {{ tag }}
+              </span>
+            }
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
 </section>

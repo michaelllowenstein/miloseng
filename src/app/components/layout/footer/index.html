@@ -1,52 +1,61 @@
 <footer class="relative z-10 border-t border-steel/20 bg-abyss/60 backdrop-blur-sm">
-    <div class="section-container py-12">
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
-            <!-- Brand column -->
-            <div>
-                <div class="flex items-center gap-2 mb-4">
-                    <span class="w-2 h-2 rounded-full bg-phosphor"></span>
-                    <span class="font-mono text-sm text-phosphor tracking-widest">miloSENG</span>
-                </div>
-                <p class="text-sm text-mist leading-relaxed max-w-xs">
-                    Building resilient distributed systems and developer tooling
-                    across the insurance technology landscape.
-                </p>
-            </div>
-
-            <!-- Quick links -->
-            <div>
-                <h4 class="font-mono text-xs text-steel tracking-widest uppercase mb-4">Navigate</h4>
-                <div class="flex flex-col gap-2">
-                    <a routerLink="/" class="text-sm text-mist hover:text-phosphor transition-colors">Home</a>
-                    <a routerLink="/portfolio"
-                        class="text-sm text-mist hover:text-phosphor transition-colors">Portfolio</a>
-                    <a routerLink="/newsletter"
-                        class="text-sm text-mist hover:text-phosphor transition-colors">Newsletter</a>
-                    <a routerLink="/contact" class="text-sm text-mist hover:text-phosphor transition-colors">Contact</a>
-                </div>
-            </div>
-
-            <!-- External -->
-            <div>
-                <h4 class="font-mono text-xs text-steel tracking-widest uppercase mb-4">Elsewhere</h4>
-                <div class="flex flex-col gap-2">
-                    <a href="https://github.com/miloseng" target="_blank" rel="noopener"
-                        class="text-sm text-mist hover:text-phosphor transition-colors">GitHub</a>
-                    <a href="https://linkedin.com/in/mlo2gs" target="_blank" rel="noopener"
-                        class="text-sm text-mist hover:text-phosphor transition-colors">LinkedIn</a>
-                    <a href="https://miloseng.com" target="_blank" rel="noopener"
-                        class="text-sm text-mist hover:text-phosphor transition-colors">miloseng.com</a>
-                </div>
-            </div>
+  <div class="section-container py-12">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+      <div>
+        <div class="flex items-center gap-2 mb-4">
+          <span class="w-2 h-2 rounded-full bg-phosphor"></span>
+          <span class="font-mono text-sm text-phosphor tracking-widest">miloSENG</span>
         </div>
+        <p
+          cmsField="brandBlurb"
+          cmsPath="layout/footer"
+          class="text-sm text-mist leading-relaxed max-w-xs">
+          Building resilient distributed systems and developer tooling across the insurance technology landscape.
+        </p>
+      </div>
 
-        <div class="mt-12 pt-6 border-t border-steel/10 flex flex-col sm:flex-row items-center justify-between gap-4">
-            <p class="font-mono text-xs text-steel">
-                &copy; {{ currentYear }} Michael Lowenstein. All rights reserved.
-            </p>
-            <p class="font-mono text-xs text-steel/60">
-                Built with Angular 20 · React Islands · TailwindCSS
-            </p>
+      <div>
+        <h4 class="font-mono text-xs text-steel tracking-widest uppercase mb-4">
+          Navigate
+        </h4>
+        <div class="flex flex-col gap-2">
+          <a routerLink="/" class="text-sm text-mist hover:text-phosphor transition-colors">Home</a>
+          <a routerLink="/portfolio" class="text-sm text-mist hover:text-phosphor transition-colors">Portfolio</a>
+          <a routerLink="/newsletter" class="text-sm text-mist hover:text-phosphor transition-colors">Newsletter</a>
+          <a routerLink="/contact" class="text-sm text-mist hover:text-phosphor transition-colors">Contact</a>
         </div>
+      </div>
+
+      <div>
+        <h4 class="font-mono text-xs text-steel tracking-widest uppercase mb-4">
+          Elsewhere
+        </h4>
+        <div class="flex flex-col gap-2">
+          @for (link of externalLinks; track link.href) {
+            <a
+              [href]="link.href"
+              target="_blank"
+              rel="noopener"
+              class="text-sm text-mist hover:text-phosphor transition-colors">
+              {{ link.label }}
+            </a>
+          }
+        </div>
+      </div>
     </div>
+
+    <div
+      class="mt-12 pt-6 border-t border-steel/10 flex flex-col sm:flex-row
+             items-center justify-between gap-4">
+      <p class="font-mono text-xs text-steel">
+        &copy; {{ currentYear }} {{ copyrightName() }}. All rights reserved.
+      </p>
+      <p
+        cmsField="builtWith"
+        cmsPath="layout/footer"
+        class="font-mono text-xs text-steel/60">
+        Built with Angular 20 · React Islands · TailwindCSS
+      </p>
+    </div>
+  </div>
 </footer>

@@ -1,96 +1,80 @@
-<!-- ═══════ PAGE HEADER ═══════ -->
 <section class="pt-28 pb-16">
-    <div class="section-container">
-        <p class="font-mono text-xs text-steel tracking-widest uppercase mb-3 animate-fade-in">
-            ~/about
-        </p>
-        <h1 class="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-bone
-                   leading-tight animate-fade-up" style="animation-delay: 0.1s; opacity: 0;">
-            Engineering at the intersection of
-            <span class="text-gradient-phosphor">architecture and automation</span>
-        </h1>
-    </div>
+  <div class="section-container">
+    <p
+      cmsField="breadcrumb"
+      cmsPath="about/header"
+      class="font-mono text-xs text-steel tracking-widest uppercase mb-3 animate-fade-in">
+      ~/about
+    </p>
+
+    <h1
+      class="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-bone
+             leading-tight animate-fade-up"
+      style="animation-delay: 0.1s; opacity: 0;">
+      <span cmsField="headline" cmsPath="about/header">
+        Engineering at the intersection of
+      </span>
+      <span> </span>
+      <span
+        cmsField="headlineAccent"
+        cmsPath="about/header"
+        class="text-gradient-phosphor">
+        architecture and automation
+      </span>
+    </h1>
+  </div>
 </section>
 
-<!-- ═══════ ABOUT ME ═══════ -->
 <section class="pb-20">
-    <div class="section-container">
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
-            <!-- Bio -->
-            <div class="lg:col-span-7">
-                <h2 appScrollAnimate="up"
-                    class="font-display text-xl font-semibold text-bone mb-5 flex items-center gap-3">
-                    <span class="w-8 h-px bg-phosphor/40"></span>
-                    About Me
-                </h2>
-                <div appScrollAnimate="up" [animateDelay]="0.1"
-                     appReadable
-                     class="text-sm space-y-4">
-                    <p>
-                        I'm a Lead Software Engineer based in Calgary, AB, with expertise in
-                        microservices architecture, cloud infrastructure, and API development.
-                        Currently I hold concurrent engineering roles — as a Senior Consultant
-                        and Fullstack Principal Engineer at Norima (embedded with Millennial
-                        Specialty Insurance MGA), and as Lead Backend Software Engineer at
-                        Rogers Communications, where I lead the next-generation eCommerce
-                        platform.
-                    </p>
-                    <p>
-                        At Norima, I lead production data-integrity remediation across a
-                        multi-generational insurance policy administration platform (MSI-PAS),
-                        authoring governed SQL remediation packages through formal DBA review
-                        processes, and investigating complex data corruption clusters categorized
-                        into a growing root-cause taxonomy. I also authored msi-nav, a data-driven
-                        CLI navigation and compliance scanning tool that lets developers locate
-                        any operation, product, status code, or queue across five repositories
-                        in under 60 seconds.
-                    </p>
-                    <p>
-                        At Rogers, I own the design and implementation of mission-critical commerce
-                        services — product catalog, pricing, checkout, order orchestration — driving
-                        platform reliability through distributed caching, asynchronous messaging,
-                        and resiliency patterns. I manage and mentor a senior engineering team,
-                        establish CI/CD practices and observability strategies, and lead technical
-                        decision-making on data architecture, API contracts, and security across
-                        the commerce ecosystem.
-                    </p>
-                    <p>
-                        Outside these roles, I contract as a Senior Software Engineer with
-                        1280 Labs, leading the front-end for an AI-enabled Talent Management CRM
-                        and prototyping backend services across Go, Rust, Node.js, Python, and
-                        .NET Core. My career spans a decade of building everything from ETL
-                        pipelines with 99.8% financial accuracy to OAuth2/OIDC authentication
-                        infrastructures, distributed task scheduling systems, and enterprise-scale
-                        CQRS architectures.
-                    </p>
-                </div>
+  <div class="section-container">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+      <div class="lg:col-span-7">
+        <h2
+          appScrollAnimate="up"
+          class="font-display text-xl font-semibold text-bone mb-5 flex items-center gap-3">
+          <span class="w-8 h-px bg-phosphor/40"></span>
+          About Me
+        </h2>
 
-                <!-- Resume download — primary CTA after bio -->
-                <div appScrollAnimate="up" [animateDelay]="0.3" class="mt-8">
-                    <app-resume-button variant="primary" />
-                </div>
-            </div>
-
-            <!-- Quick facts sidebar -->
-            <div class="lg:col-span-5">
-                <div appScrollAnimate="up" [animateDelay]="0.2"
-                     class="card-surface p-6 space-y-5">
-                    <h3 class="font-mono text-xs text-steel tracking-widest uppercase">Quick Facts</h3>
-
-                    @for (fact of quickFacts; track fact.label; let i = $index) {
-                    <div class="flex items-start gap-3">
-                        <span class="w-1.5 h-1.5 mt-1.5 rounded-full bg-phosphor/40 shrink-0"></span>
-                        <div>
-                            <p class="font-mono text-[10px] text-steel uppercase tracking-wider">{{ fact.label }}</p>
-                            <p class="text-sm text-bone">{{ fact.value }}</p>
-                        </div>
-                    </div>
-                    }
-                </div>
-            </div>
+        <div
+          appScrollAnimate="up"
+          [animateDelay]="0.1"
+          appReadable
+          class="text-sm space-y-4">
+          @for (paragraph of bioParagraphs; track $index) {
+            <p>{{ paragraph }}</p>
+          }
         </div>
+
+        <div appScrollAnimate="up" [animateDelay]="0.3" class="mt-8">
+          <app-resume-button variant="primary" />
+        </div>
+      </div>
+
+      <div class="lg:col-span-5">
+        <div
+          appScrollAnimate="up"
+          [animateDelay]="0.2"
+          class="card-surface p-6 space-y-5">
+          <h3 class="font-mono text-xs text-steel tracking-widest uppercase">
+            Quick Facts
+          </h3>
+
+          @for (fact of quickFacts; track fact.label) {
+            <div class="flex items-start gap-3">
+              <span class="w-1.5 h-1.5 mt-1.5 rounded-full bg-phosphor/40 shrink-0"></span>
+              <div>
+                <p class="font-mono text-[10px] text-steel uppercase tracking-wider">
+                  {{ fact.label }}
+                </p>
+                <p class="text-sm text-bone">{{ fact.value }}</p>
+              </div>
+            </div>
+          }
+        </div>
+      </div>
     </div>
+  </div>
 </section>
 
-<!-- ═══════ CAREER EXPERIENCE (feature) ═══════ -->
 <app-experience />
