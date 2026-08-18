@@ -14,6 +14,11 @@ import { LANDING_DEFAULTS } from '@schema/constants/site-defaults';
     CmsFieldDirective,
   ],
   templateUrl: './index.html',
+  styles: [`
+    .spacer {
+      min-width: 10px !important;
+    }
+    `]
 })
 export class LandingComponent {
   readonly capabilities = LANDING_DEFAULTS.capabilities;
