@@ -7,6 +7,9 @@ import { Observable, from }                     from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
+  currentUser() {
+      throw new Error('Method not implemented.');
+  }
   private _auth   = inject(Auth);
   private _router = inject(Router);
 

@@ -12,7 +12,7 @@ import { Icon } from '../../../ui/icon';
 export interface ContextMenuItem {
   label:    string;
   icon?:    string;
-  action:   () => void;
+  action?:   () => void;
   danger?:  boolean;
   divider?: boolean;  // render a divider BEFORE this item
 }
@@ -26,13 +26,13 @@ export interface ContextMenuData {
 // export type ContextMenuResult = 'edit' | null;
 
 @Component({
-  selector:    'app-context-menu-dialog',
+  selector:    'app-context-menu',
   standalone:  true,
   imports:     [Icon],
   templateUrl: './index.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ContextMenuDialog implements OnInit {
+export class ContextMenu implements OnInit {
   data  = injectDialogData<ContextMenuData>();
   close = injectDialogClose();
 
@@ -65,7 +65,7 @@ export class ContextMenuDialog implements OnInit {
   }
 
   run(item: ContextMenuItem) {
-    item.action();
+    if (item.action) item.action();
     this.close();
   }
 }

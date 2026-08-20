@@ -1,0 +1,249 @@
+@if (project; as p) {
+  <article class="pt-28 pb-24">
+    <div class="section-container">
+      <div class="flex items-center justify-between gap-6 mb-10">
+        <a
+          routerLink="/projects"
+          class="font-mono text-xs text-steel hover:text-phosphor transition-colors">
+          ← ~/projects
+        </a>
+
+        <span
+          class="px-2.5 py-1 rounded-full border font-mono text-[10px]
+                 tracking-wider uppercase"
+          [class]="
+            p.status === 'active'
+              ? 'bg-phosphor/10 text-phosphor/70 border-phosphor/20'
+              : p.status === 'maintained'
+                ? 'bg-signal/10 text-signal/70 border-signal/20'
+                : p.status === 'coming-soon'
+                  ? 'bg-cyan-400/10 text-cyan-300/80 border-cyan-300/20'
+                  : 'bg-ember/10 text-ember/70 border-ember/20'
+          ">
+          {{ p.status === 'coming-soon' ? 'coming soon' : p.status }}
+        </span>
+      </div>
+
+      <header class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-end mb-16">
+        <div class="lg:col-span-8">
+          <div class="flex items-center gap-3 mb-4">
+            <span
+              class="w-3 h-3 rounded-full"
+              [style.backgroundColor]="p.color">
+            </span>
+            <span class="font-mono text-xs text-steel tracking-widest uppercase">
+              project / {{ p.id }}
+            </span>
+          </div>
+
+          <h1
+            class="font-display text-4xl md:text-5xl lg:text-6xl
+                   font-bold text-bone leading-tight mb-4">
+            {{ p.name }}
+          </h1>
+
+          <p class="font-mono text-sm text-phosphor/70 mb-5">
+            {{ p.tagline }}
+          </p>
+
+          <p class="text-base md:text-lg text-mist leading-relaxed max-w-3xl">
+            {{ p.summary }}
+          </p>
+        </div>
+
+        <div class="lg:col-span-4">
+          <div class="card-surface p-5">
+            <p class="font-mono text-[10px] text-steel uppercase tracking-widest mb-3">
+              Stack / surface
+            </p>
+
+            <div class="flex flex-wrap gap-2">
+              @for (tech of p.tech; track tech) {
+                <span
+                  class="px-2.5 py-1 rounded-full border border-phosphor/10
+                         bg-phosphor/5 font-mono text-[10px] text-phosphor/70">
+                  {{ tech }}
+                </span>
+              }
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
+        <div class="lg:col-span-8 space-y-6">
+          @for (section of p.sections; track section.title; let i = $index) {
+            <section class="card-surface p-6 md:p-8">
+              <div class="flex items-start gap-4">
+                <span class="font-mono text-[10px] text-steel mt-1">
+                  0{{ i + 1 }}
+                </span>
+
+                <div class="min-w-0">
+                  <p
+                    class="font-mono text-[10px] uppercase tracking-widest mb-2"
+                    [style.color]="p.color">
+                    {{ section.eyebrow }}
+                  </p>
+
+                  <h2
+                    class="font-display text-xl md:text-2xl font-semibold
+                           text-bone mb-4">
+                    {{ section.title }}
+                  </h2>
+
+                  <p class="text-sm text-mist leading-relaxed">
+                    {{ section.body }}
+                  </p>
+
+                  @if (section.bullets?.length) {
+                    <ul class="mt-5 space-y-2">
+                      @for (bullet of section.bullets; track bullet) {
+                        <li class="flex items-start gap-3 text-sm text-mist">
+                          <span
+                            class="mt-2 w-1.5 h-1.5 rounded-full shrink-0"
+                            [style.backgroundColor]="p.color">
+                          </span>
+                          <span>{{ bullet }}</span>
+                        </li>
+                      }
+                    </ul>
+                  }
+                </div>
+              </div>
+            </section>
+          }
+        </div>
+
+        <aside class="lg:col-span-4">
+          <div class="sticky top-28 space-y-6">
+            <section class="card-surface overflow-hidden">
+              <div
+                class="px-5 py-4 border-b border-steel/10
+                       flex items-center justify-between">
+                <div>
+                  <p class="font-mono text-[10px] text-steel uppercase tracking-widest">
+                    Preview surface
+                  </p>
+                  <h3 class="font-display text-sm font-semibold text-bone mt-1">
+                    {{ p.preview?.label ?? 'Project preview' }}
+                  </h3>
+                </div>
+
+                <span
+                  class="w-2 h-2 rounded-full"
+                  [style.backgroundColor]="p.color">
+                </span>
+              </div>
+
+              <div class="p-5">
+                <div
+                  class="relative min-h-56 rounded-lg border border-steel/20
+                         bg-black/20 overflow-hidden flex items-center justify-center">
+                  <div
+                    class="absolute inset-0 opacity-30 pointer-events-none"
+                    style="background-image:
+                      linear-gradient(rgba(148,163,184,.08) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(148,163,184,.08) 1px, transparent 1px);
+                      background-size: 20px 20px;">
+                  </div>
+
+                  <div class="relative z-10 text-center p-8">
+                    <div
+                      class="w-10 h-10 rounded-xl mx-auto mb-4
+                             border flex items-center justify-center"
+                      [style.borderColor]="p.color"
+                      [style.color]="p.color">
+                      ◇
+                    </div>
+
+                    <p class="font-mono text-xs text-bone mb-2">
+                      {{ p.preview?.state === 'coming-soon'
+                        ? 'release incoming'
+                        : 'preview reserved' }}
+                    </p>
+
+                    <p class="text-xs text-steel leading-relaxed">
+                      {{ p.preview?.message }}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <a
+              routerLink="/contact"
+              class="btn-secondary w-full justify-center">
+              Discuss this work
+            </a>
+          </div>
+        </aside>
+      </div>
+
+      <section class="mt-20 pt-12 border-t border-steel/10">
+        <div class="flex items-end justify-between gap-6 mb-6">
+          <div>
+            <p class="font-mono text-[10px] text-steel uppercase tracking-widest mb-2">
+              Continue exploring
+            </p>
+            <h2 class="font-display text-xl font-semibold text-bone">
+              Other projects
+            </h2>
+          </div>
+
+          <a
+            routerLink="/projects"
+            class="font-mono text-xs text-phosphor/70 hover:text-phosphor">
+            View all →
+          </a>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          @for (related of relatedProjects(); track related.id) {
+            <a
+              [routerLink]="['/projects', related.id]"
+              class="card-surface p-5 group">
+              <div class="flex items-center gap-2 mb-2">
+                <span
+                  class="w-2 h-2 rounded-full"
+                  [style.backgroundColor]="related.color">
+                </span>
+                <span
+                  class="font-display text-sm font-semibold text-bone
+                         group-hover:text-phosphor transition-colors">
+                  {{ related.name }}
+                </span>
+              </div>
+
+              <p class="text-xs text-steel">
+                {{ related.tagline }}
+              </p>
+            </a>
+          }
+        </div>
+      </section>
+    </div>
+  </article>
+} @else {
+  <section class="pt-32 pb-24">
+    <div class="section-container max-w-2xl">
+      <div class="card-surface p-8 text-center">
+        <p class="font-mono text-xs text-steel uppercase tracking-widest mb-3">
+          project / not-found
+        </p>
+
+        <h1 class="font-display text-2xl font-bold text-bone mb-3">
+          Preview not found
+        </h1>
+
+        <p class="text-sm text-mist mb-6">
+          That project preview does not exist in the current portfolio registry.
+        </p>
+
+        <a routerLink="/projects" class="btn-primary">
+          Back to projects
+        </a>
+      </div>
+    </div>
+  </section>
+}

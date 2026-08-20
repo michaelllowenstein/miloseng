@@ -1,206 +1,240 @@
-/**
- * dialog.service.ts
- *
- * Headless dialog factory — no Angular Material, no CDK overlay.
- * Uses Angular's createComponent() + ApplicationRef to mount any
- * standalone component as a modal inside a managed backdrop.
- *
- * Features:
- *   • Fully typed via InjectionToken helpers in dialog.tokens.ts
- *   • CSS-class-driven open/close animation (no setTimeout hacks for open)
- *   • Escape key closes the active dialog
- *   • Focus trap — Tab cycles only within the open panel
- *   • Scroll lock on <body> while any dialog is open
- *   • Stacks correctly — each open() call is independent
- *   • Context-menu variant: no backdrop, positioned at cursor
- */
+import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import {
-  Injectable,
-  inject,
   ApplicationRef,
-  createComponent,
   EnvironmentInjector,
+  Injectable,
+  PLATFORM_ID,
   Type,
+  createComponent,
   createEnvironmentInjector,
+  inject,
 } from '@angular/core';
-import { DOCUMENT } from '@angular/common';
-import { DIALOG_DATA, DIALOG_CLOSE_FN } from './tokens';
 
-// ── Public types ──────────────────────────────────────────────────────────────
+import { DIALOG_CLOSE_FN, DIALOG_DATA } from './tokens';
 
 export interface DialogRef<R = unknown> {
-  /** Programmatically close with an optional result. */
   close(result?: R): void;
-  /** Resolves when the dialog finishes its exit animation. */
   closed: Promise<R | undefined>;
 }
 
 export interface DialogOptions<D = unknown> {
-  data?:           D;
-  /** Skip the dark backdrop (used for context menus). */
-  bare?:           boolean;
-  /** Prevent closing when the user clicks the backdrop. */
-  disableClose?:   boolean;
-  /** Prevent closing when the user presses Escape. */
-  disableEscape?:  boolean;
-  /** Extra Tailwind classes added to the backdrop wrapper. */
-  panelClass?:     string;
+  data?: D;
+  bare?: boolean;
+  disableClose?: boolean;
+  disableEscape?: boolean;
+  panelClass?: string;
 }
 
-// ── Animation class constants ─────────────────────────────────────────────────
-// These must exist in tailwind.config.js:
-//
-//   keyframes: {
-//     dialogIn:  { from: { opacity: '0' },                   to: { opacity: '1' } },
-//     dialogOut: { from: { opacity: '1' },                   to: { opacity: '0' } },
-//   },
-//   animation: {
-//     'dialog-in':  'dialogIn 0.18s ease both',
-//     'dialog-out': 'dialogOut 0.15s ease both',
-//   },
-//
-// The panel itself uses animate-scale-in (already in tailwind.config.js).
-
-const CLS_OPEN  = 'animate-dialog-in';
+const CLS_OPEN = 'animate-dialog-in';
 const CLS_CLOSE = 'animate-dialog-out';
 const ANIM_DURATION_MS = 160;
 
-// ── Service ───────────────────────────────────────────────────────────────────
-
 @Injectable({ providedIn: 'root' })
 export class DialogService {
-  private appRef   = inject(ApplicationRef);
-  private injector = inject(EnvironmentInjector);
-  private document = inject(DOCUMENT);
+  private readonly appRef = inject(ApplicationRef);
+  private readonly rootInjector = inject(EnvironmentInjector);
+  private readonly document = inject(DOCUMENT);
+  private readonly platformId = inject(PLATFORM_ID);
 
-  /** Number of currently open dialogs (used to manage scroll lock). */
   private openCount = 0;
 
   open<C, D = unknown, R = unknown>(
     component: Type<C>,
     options: DialogOptions<D> = {},
   ): DialogRef<R> {
-
-    // ── Backdrop element ────────────────────────────────────────────────────
-    const backdrop = this.document.createElement('div');
-
-    if (options.bare) {
-      // Context-menu mode: transparent full-screen capture layer
-      backdrop.className = 'fixed inset-0 z-50';
-    } else {
-      backdrop.className = [
-        'fixed inset-0 z-50',
-        'bg-brand-dark/60 backdrop-blur-sm',
-        'flex items-center justify-center p-4',
-        CLS_OPEN,
-        options.panelClass ?? '',
-      ].filter(Boolean).join(' ');
+    if (!isPlatformBrowser(this.platformId)) {
+      return {
+        close: () => undefined,
+        closed: Promise.resolve(undefined),
+      };
     }
 
-    this.document.body.appendChild(backdrop);
-    this.lockScroll();
+    const overlay = this.createOverlay(options);
+    const host = this.document.createElement('div');
+    host.style.display = 'contents';
+    overlay.appendChild(host);
+    this.document.body.appendChild(overlay);
 
-    // ── Promise wiring ──────────────────────────────────────────────────────
-    let resolveClosed!: (v: R | undefined) => void;
-    const closed = new Promise<R | undefined>(res => (resolveClosed = res));
+    if (!options.bare) {
+      this.lockScroll();
+    }
+
+    let resolveClosed!: (value: R | undefined) => void;
+    const closed = new Promise<R | undefined>(resolve => {
+      resolveClosed = resolve;
+    });
+
     let settled = false;
+    let destroyed = false;
+    let componentRef: ReturnType<typeof createComponent<C>> | undefined;
+    let childInjector: EnvironmentInjector | undefined;
 
-    // ── Close function ──────────────────────────────────────────────────────
-    const close = (result?: R) => {
+    const cleanup: Array<() => void> = [];
+
+    const destroy = (result?: R): void => {
+      if (destroyed) return;
+      destroyed = true;
+
+      for (const fn of cleanup.splice(0)) fn();
+
+      if (componentRef) {
+        this.appRef.detachView(componentRef.hostView);
+        componentRef.destroy();
+      }
+
+      childInjector?.destroy();
+      overlay.remove();
+
+      if (!options.bare) {
+        this.unlockScroll();
+      }
+
+      resolveClosed(result);
+    };
+
+    const close = (result?: R): void => {
       if (settled) return;
       settled = true;
 
-      // Swap in the exit animation class
-      backdrop.classList.remove(CLS_OPEN);
-      backdrop.classList.add(CLS_CLOSE);
+      overlay.classList.remove(CLS_OPEN);
+      overlay.classList.add(CLS_CLOSE);
 
-      setTimeout(() => {
-        this.appRef.detachView(ref.hostView);
-        ref.destroy();
-        childInjector.destroy();
-        backdrop.remove();
-        this.unlockScroll();
-        restoreEscape();
-        restoreFocus();
-        resolveClosed(result);
-      }, ANIM_DURATION_MS);
+      window.setTimeout(
+        () => destroy(result),
+        ANIM_DURATION_MS,
+      );
     };
 
-    // ── Child injector — typed tokens, no string tokens ─────────────────────
-    const childInjector = createEnvironmentInjector(
-      [
-        { provide: DIALOG_DATA,     useValue: options.data ?? {} },
-        { provide: DIALOG_CLOSE_FN, useValue: close             },
-      ],
-      this.injector,
+    try {
+      childInjector = createEnvironmentInjector(
+        [
+          { provide: DIALOG_DATA, useValue: options.data },
+          { provide: DIALOG_CLOSE_FN, useValue: close },
+        ],
+        this.rootInjector,
+      );
+
+      componentRef = createComponent(component, {
+        environmentInjector: childInjector,
+        hostElement: host,
+      });
+
+      this.appRef.attachView(componentRef.hostView);
+
+      // Required for dynamically created views in this zoneless application.
+      componentRef.changeDetectorRef.detectChanges();
+
+      if (!options.disableClose) {
+        const onOverlayClick = (event: MouseEvent): void => {
+          if (event.target === overlay) {
+            close();
+          }
+        };
+
+        overlay.addEventListener('click', onOverlayClick);
+        cleanup.push(() =>
+          overlay.removeEventListener('click', onOverlayClick),
+        );
+      }
+
+      const onKeyDown = (event: KeyboardEvent): void => {
+        if (event.key === 'Escape' && !options.disableEscape) {
+          event.preventDefault();
+          close();
+          return;
+        }
+
+        if (event.key === 'Tab' && !options.bare) {
+          trapFocus(event, overlay);
+        }
+      };
+
+      this.document.addEventListener('keydown', onKeyDown);
+      cleanup.push(() =>
+        this.document.removeEventListener('keydown', onKeyDown),
+      );
+
+      const previouslyFocused =
+        this.document.activeElement instanceof HTMLElement
+          ? this.document.activeElement
+          : null;
+
+      cleanup.push(() => previouslyFocused?.focus?.());
+
+      requestAnimationFrame(() => {
+        getFirstFocusable(overlay)?.focus();
+      });
+
+      return { close, closed };
+    } catch (error) {
+      console.error('[DialogService] Failed to open dialog', {
+        component: component.name,
+        error,
+      });
+
+      settled = true;
+      destroy();
+      throw error;
+    }
+  }
+
+  private createOverlay<D>(
+    options: DialogOptions<D>,
+  ): HTMLDivElement {
+    const overlay = this.document.createElement('div');
+
+    overlay.dataset['dialogOverlay'] = 'true';
+    overlay.setAttribute(
+      'role',
+      options.bare ? 'presentation' : 'dialog',
     );
 
-    // ── Mount component ─────────────────────────────────────────────────────
-    const ref = createComponent(component as Type<object>, {
-      environmentInjector: childInjector,
-      hostElement:         backdrop,
-    });
-    this.appRef.attachView(ref.hostView);
-
-    // ── Backdrop click ──────────────────────────────────────────────────────
-    if (!options.disableClose) {
-      backdrop.addEventListener('click', (e) => {
-        if (e.target === backdrop) close(undefined);
-      });
+    if (!options.bare) {
+      overlay.setAttribute('aria-modal', 'true');
     }
 
-    // ── Escape key ──────────────────────────────────────────────────────────
-    const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' && !options.disableEscape) {
-        e.preventDefault();
-        close(undefined);
-      }
-      if (e.key === 'Tab') {
-        trapFocus(e, backdrop);
-      }
-    };
-    this.document.addEventListener('keydown', onKeyDown);
-    const restoreEscape = () => this.document.removeEventListener('keydown', onKeyDown);
+    overlay.className = options.bare
+      ? 'fixed inset-0 z-[9998]'
+      : [
+          'fixed inset-0 z-[9998]',
+          'bg-black/60 backdrop-blur-sm',
+          'flex items-center justify-center p-4',
+          CLS_OPEN,
+          options.panelClass ?? '',
+        ].filter(Boolean).join(' ');
 
-    // ── Focus management ────────────────────────────────────────────────────
-    const previouslyFocused = this.document.activeElement as HTMLElement | null;
-    // Move focus into the panel on the next tick (after Angular renders)
-    requestAnimationFrame(() => {
-      const first = getFirstFocusable(backdrop);
-      first?.focus();
-    });
-    const restoreFocus = () => previouslyFocused?.focus?.();
-
-    return { close, closed };
+    return overlay;
   }
 
-  // ── Scroll lock helpers ────────────────────────────────────────────────────
-
-  private lockScroll() {
+  private lockScroll(): void {
     this.openCount++;
-    if (this.openCount === 1) {
-      const scrollY = window.scrollY;
-      this.document.body.style.position   = 'fixed';
-      this.document.body.style.top        = `-${scrollY}px`;
-      this.document.body.style.width      = '100%';
-      this.document.body.style.overflowY  = 'scroll'; // prevent layout shift
-    }
+    if (this.openCount !== 1) return;
+
+    const scrollY = window.scrollY;
+    this.document.body.dataset['dialogScrollY'] = String(scrollY);
+    this.document.body.style.position = 'fixed';
+    this.document.body.style.top = `-${scrollY}px`;
+    this.document.body.style.width = '100%';
+    this.document.body.style.overflowY = 'scroll';
   }
 
-  private unlockScroll() {
+  private unlockScroll(): void {
     this.openCount = Math.max(0, this.openCount - 1);
-    if (this.openCount === 0) {
-      const scrollY = parseInt(this.document.body.style.top || '0', 10) * -1;
-      this.document.body.style.position  = '';
-      this.document.body.style.top       = '';
-      this.document.body.style.width     = '';
-      this.document.body.style.overflowY = '';
-      window.scrollTo(0, scrollY);
-    }
+    if (this.openCount !== 0) return;
+
+    const scrollY = Number(
+      this.document.body.dataset['dialogScrollY'] ?? 0,
+    );
+
+    delete this.document.body.dataset['dialogScrollY'];
+    this.document.body.style.position = '';
+    this.document.body.style.top = '';
+    this.document.body.style.width = '';
+    this.document.body.style.overflowY = '';
+
+    window.scrollTo({ top: scrollY, behavior: 'instant' });
   }
 }
-
-// ── Focus trap helpers (module-level, no need to be class methods) ─────────────
 
 const FOCUSABLE = [
   'a[href]',
@@ -211,30 +245,40 @@ const FOCUSABLE = [
   '[tabindex]:not([tabindex="-1"])',
 ].join(', ');
 
-function getFocusableElements(container: HTMLElement): HTMLElement[] {
-  return Array.from(container.querySelectorAll<HTMLElement>(FOCUSABLE));
+function getFocusableElements(
+  container: HTMLElement,
+): HTMLElement[] {
+  return Array.from(
+    container.querySelectorAll<HTMLElement>(FOCUSABLE),
+  );
 }
 
-function getFirstFocusable(container: HTMLElement): HTMLElement | null {
+function getFirstFocusable(
+  container: HTMLElement,
+): HTMLElement | null {
   return getFocusableElements(container)[0] ?? null;
 }
 
-function trapFocus(e: KeyboardEvent, container: HTMLElement) {
+function trapFocus(
+  event: KeyboardEvent,
+  container: HTMLElement,
+): void {
   const focusable = getFocusableElements(container);
   if (focusable.length === 0) return;
 
   const first = focusable[0];
-  const last  = focusable[focusable.length - 1];
+  const last = focusable[focusable.length - 1];
 
-  if (e.shiftKey) {
+  if (event.shiftKey) {
     if (document.activeElement === first) {
-      e.preventDefault();
+      event.preventDefault();
       last.focus();
     }
-  } else {
-    if (document.activeElement === last) {
-      e.preventDefault();
-      first.focus();
-    }
+    return;
+  }
+
+  if (document.activeElement === last) {
+    event.preventDefault();
+    first.focus();
   }
 }

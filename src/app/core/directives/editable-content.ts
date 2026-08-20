@@ -24,7 +24,7 @@ import { EditorService } from '@core/services/editor';
 import { CmsDocument, CmsService } from '../../core/services/cms';
 
 import {
-  ContextMenuDialog,
+  ContextMenu,
   ContextMenuData,
 } from '@components/ui/dialog/context-menu';
 
@@ -72,8 +72,8 @@ export class EditableContentDirective {
     //   'edit' | null
     // >(ContextMenuDialog, { data: { x: event.clientX, y: event.clientY } });
 
-    const menuRef = this.dialog.open<ContextMenuDialog, ContextMenuData>(
-      ContextMenuDialog,
+    const menuRef = this.dialog.open<ContextMenu, ContextMenuData>(
+      ContextMenu,
       {
         bare: true,
         data: {

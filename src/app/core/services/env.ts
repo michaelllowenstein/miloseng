@@ -63,6 +63,7 @@ export class EnvService {
   // ── Firebase ───────────────────────────────────────────────────────────────
  
   readonly firebase: Readonly<FirebaseConfig> = Object.freeze({ ...env.firebase });
+    apiURL: any;
  
   // ── Convenience helpers ────────────────────────────────────────────────────
 
