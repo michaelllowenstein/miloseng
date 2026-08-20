@@ -88,9 +88,45 @@ export namespace Portfolio {
     body:    string;
   }
 
+  export type ProjectPreviewStatus =
+  | 'active'
+  | 'maintained'
+  | 'experimental'
+  | 'coming-soon';
+
+  export interface ProjectPreview {
+    id: string;
+    name: string;
+    tagline: string;
+    description: string;
+    color: string;
+    tech: string[];
+    status: ProjectPreviewStatus;
+  }
+
+  export interface ProjectPreviewSection {
+    eyebrow: string;
+    title: string;
+    body: string;
+    bullets?: string[];
+  }
+
+  export interface ProjectPreviewDetail extends ProjectPreview {
+    summary: string;
+    sections: ProjectPreviewSection[];
+    preview?: {
+      label: string;
+      state: 'available' | 'planned' | 'coming-soon';
+      message: string;
+    };
+  }
 }
 
 // ── Flat aliases ─────────────────────────────────────────────────────────────
+export type ProjectPreview      = Portfolio.ProjectPreview;
+export type ProjectPreviewStatus  = Portfolio.ProjectPreviewStatus;
+export type ProjectPreviewSection = Portfolio.ProjectPreviewSection;
+export type ProjectPreviewDetail = Portfolio.ProjectPreviewDetail;
 export type ProjectStatus        = Portfolio.Status;
 export type Project              = Portfolio.Project;
 export type CreateProjectInput   = Portfolio.CreateInput;

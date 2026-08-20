@@ -8,6 +8,7 @@ import {
   ProjectComponent,
   ProjectPreview,
 } from '@feature/project';
+import { PROJECT_CARDS } from '@schema/constants';
 
 @Component({
   selector: 'app-projects',
@@ -22,7 +23,7 @@ import {
 })
 export class ProjectsPage implements OnInit {
   readonly roiDashboardComponent = signal<unknown>(null);
-  readonly projects: ProjectPreview[] = PROJECTS_DEFAULTS.previews;
+  readonly projects: readonly ProjectPreview[] = PROJECT_CARDS;
 
   async ngOnInit(): Promise<void> {
     const mod = await import('../../islands/RoiDashboard');

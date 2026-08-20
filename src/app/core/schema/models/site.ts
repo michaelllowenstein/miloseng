@@ -211,8 +211,45 @@ export namespace Site {
     navbar: NavLink[];
     subscribe: SubscribeContent;
   }
+  export type NotificationAudience = 'all' | 'lawyers' | 'editors';
+export type NotificationType = 'feature' | 'info' | 'warning';
+export type NotificationStatus = 'active' | 'archived';
+
+export interface AppNotification {
+  id: string;
+  title: string;
+  body: string;
+  type: NotificationType;
+  audience: NotificationAudience;
+  status: NotificationStatus;
+  cta?: {
+    label: string;
+    url: string;
+  };
+  createdAt: string; // ISO
+  expiresAt?: string; // ISO — optional TTL
+  authorId?: string;
 }
 
+/** Shape stored in Firebase under /notificationReads/{uid}/{notifId} */
+export interface NotificationReadRecord {
+  readAt: string;
+  uid: string;
+}
+ 
+/** Client-side enriched model */
+export interface NotificationViewModel extends AppNotification {
+  isRead: boolean;
+  isDismissed: boolean; // session-only, not persisted
+}
+}
+
+export type NotificationViewModel = Site.NotificationViewModel;
+export type NotificationStatus = Site.NotificationStatus;
+export type NotificationType = Site.NotificationType;
+export type AppNotification = Site.AppNotification;
+export type NotificationReadRecord = Site.NotificationReadRecord;
+export type NotificationAudience = Site.NotificationAudience;
 export type AboutBio = Site.AboutBio;
 export type AboutContent = Site.AboutContent;
 export type Capability = Site.Capability;

@@ -1,18 +1,12 @@
 import { Component, Input } from '@angular/core';
+import { RouterLink } from '@angular/router';
+import type { ProjectPreview } from '@schema/models';
 
-export interface ProjectPreview {
-  id: string;
-  name: string;
-  tagline: string;
-  description: string;
-  color: string;
-  tech: string[];
-  status: 'active' | 'maintained' | 'experimental';
-}
-
+export type { ProjectPreview } from '@schema/models';
 @Component({
   selector: 'app-project',
   standalone: true,
+  imports: [RouterLink],
   templateUrl: './index.html',
 })
 export class ProjectComponent {

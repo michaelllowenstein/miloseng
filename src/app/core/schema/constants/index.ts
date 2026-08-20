@@ -1,7 +1,11 @@
 
 // ── Constants ─────────────────────────────────────────────────────────────────
 
-import { BlogArticle } from "@schema/models";
+import {
+  BlogArticle,
+  ProjectPreview,
+  ProjectPreviewDetail,
+} from "@schema/models";
 
 export const DB_ROOT          = '';
 export const CONTENT_ROOT     = `${DB_ROOT}/siteContent`;
@@ -179,5 +183,288 @@ export const POSTS: BlogArticle[] = [
 ];
 
 export const INQUIRY_SUB_PREFIX = 'INQUIRY FROM WEBSITE:';
+
+export const PROJECT_PREVIEWS: readonly ProjectPreviewDetail[] = [
+  {
+    id: 'toolbox',
+    name: 'Toolbox',
+    tagline: 'CLI & developer productivity suite',
+    color: '#33FF88',
+    status: 'active',
+    description:
+      'A modular CLI architecture built around reusable shell tooling, cross-machine configuration, SSH identity switching, and fast code-navigation pipelines.',
+    tech: ['zsh', 'tmux', 'fzf', 'rg', 'WSL2'],
+    summary:
+      'A practical developer-workstation layer that turns frequently repeated engineering actions into fast, composable terminal workflows.',
+    sections: [
+      {
+        eyebrow: 'Problem',
+        title: 'High-frequency work should not require high-friction repetition.',
+        body:
+          'Toolbox consolidates recurring environment, repository, navigation, shell, and identity workflows into a coherent command surface instead of leaving them scattered across ad-hoc shell history.',
+      },
+      {
+        eyebrow: 'Architecture',
+        title: 'Composable shell tooling rather than one oversized script.',
+        body:
+          'The project is organized around modular shell capabilities such as aliaser.zsh, dev_tools.zsh, and sandbox_tools.zsh, with dotfiles providing cross-machine configuration continuity.',
+        bullets: [
+          'Cross-machine configuration through dotfiles',
+          'SSH identity switching for distinct development contexts',
+          'rg / fzf / bat workflows for rapid repository navigation',
+          'tmux-oriented terminal workflows',
+        ],
+      },
+      {
+        eyebrow: 'Outcome',
+        title: 'A workstation that behaves more like a personal engineering platform.',
+        body:
+          'The portfolio version emphasizes the system-design idea behind the tooling: make common actions discoverable, repeatable, and cheap enough that good workflow hygiene becomes the default.',
+      },
+    ],
+    preview: {
+      label: 'Terminal workflow preview',
+      state: 'planned',
+      message:
+        'Interactive command-flow examples and benchmark snapshots will land here in a later portfolio iteration.',
+    },
+  },
+  {
+    id: 'workflow',
+    name: 'Workflow',
+    tagline: 'Agentic development orchestration',
+    color: '#3B82F6',
+    status: 'active',
+    description:
+      'State-Mode Development, ActivityWatch-to-local-LLM digests, and persistent multiplexer sessions for maintaining context across engineering work.',
+    tech: ['TypeScript', 'Angular 20', 'Python', 'LLM APIs'],
+    summary:
+      'An experiment in treating engineering context, state transitions, and AI assistance as parts of one explicit development workflow.',
+    sections: [
+      {
+        eyebrow: 'Method',
+        title: 'Make working state explicit.',
+        body:
+          'Workflow applies State-Mode Development to decompose UI and engineering work into explicit modes instead of relying on implicit state scattered across tools and components.',
+      },
+      {
+        eyebrow: 'Automation',
+        title: 'Capture activity, summarize context, preserve continuity.',
+        body:
+          'The project combines activity capture, local-LLM digest generation, and persistent terminal sessions to reduce the cost of resuming complex work.',
+        bullets: [
+          'ActivityWatch → local LLM → digest pipeline',
+          'State-Mode methodology across Angular and React work',
+          'Persistent Zellij session architecture',
+        ],
+      },
+      {
+        eyebrow: 'Why it matters',
+        title: 'Context switching becomes an architectural concern.',
+        body:
+          'The project treats lost working context as something that can be modeled and reduced systematically rather than accepted as unavoidable developer overhead.',
+      },
+    ],
+    preview: {
+      label: 'Workflow state preview',
+      state: 'planned',
+      message:
+        'A visual state-transition explorer is reserved for the next preview iteration.',
+    },
+  },
+  {
+    id: 'autoval',
+    name: 'AutoVal',
+    tagline: 'AI assistant benchmarking & evaluation',
+    color: '#F59E0B',
+    status: 'active',
+    description:
+      'Comparative AI coding-assistant benchmarks using a shared prompt suite, plus an LLM-powered judge CLI for structured code review.',
+    tech: ['Anthropic API', 'Cursor IDE', 'TypeScript', 'Prompt Engineering'],
+    summary:
+      'A repeatable evaluation harness for comparing coding assistants on the same engineering tasks instead of judging them from isolated demos.',
+    sections: [
+      {
+        eyebrow: 'Evaluation',
+        title: 'Hold the task constant; compare the systems.',
+        body:
+          'AutoVal is organized around shared frontend and backend prompt suites so model behavior can be evaluated against the same task framing.',
+      },
+      {
+        eyebrow: 'Review',
+        title: 'Use structured judging rather than impression alone.',
+        body:
+          'The project includes a judge CLI that uses an LLM-powered review step to make evaluation criteria more systematic and easier to reproduce.',
+        bullets: [
+          'Shared prompt suites',
+          'Cross-assistant comparison',
+          'Structured code-review workflow',
+          'Anthropic API-powered judge CLI',
+        ],
+      },
+      {
+        eyebrow: 'Portfolio angle',
+        title: 'Evaluation is an engineering system, not a leaderboard.',
+        body:
+          'The preview focuses on fair comparison, repeatable evidence, and evaluation design rather than presenting unsupported universal model rankings.',
+      },
+    ],
+    preview: {
+      label: 'Evaluation matrix',
+      state: 'planned',
+      message:
+        'A sanitized benchmark matrix and scoring walkthrough will be added here.',
+    },
+  },
+  {
+    id: 'automation',
+    name: 'Automation',
+    tagline: 'Infrastructure & pipeline automation',
+    color: '#F472B6',
+    status: 'maintained',
+    description:
+      'A collection of infrastructure and pipeline systems spanning resilience testing, scheduled scraping, and Whisper ASR normalization.',
+    tech: ['.NET 8', 'YARP', 'Node.js 22', 'Whisper', 'Python'],
+    summary:
+      'A portfolio grouping for production-minded automation projects where repeatability, observability, and deterministic pipelines matter more than UI surface area.',
+    sections: [
+      {
+        eyebrow: 'Systems',
+        title: 'Different workloads, one recurring theme: automate the fragile path.',
+        body:
+          'The project family includes ProxyMockApi for proxy and resilience scenarios, ScraperJobRunner for scheduled data collection, and ermis-transcriber for deterministic ASR post-processing.',
+      },
+      {
+        eyebrow: 'Examples',
+        title: 'Infrastructure automation across multiple runtimes.',
+        body:
+          'The work spans .NET, Node.js, Python, YARP, and Whisper, with each tool focused on making an operational workflow repeatable.',
+        bullets: [
+          'ProxyMockApi: .NET 8 / YARP resilience testing',
+          'ScraperJobRunner: Node.js 22 scheduled scraping pipeline',
+          'ermis-transcriber: 13-stage Whisper ASR normalization',
+          'Reference normalization suite reaching 20/20',
+        ],
+      },
+      {
+        eyebrow: 'Design principle',
+        title: 'The best automation makes failure modes easier to reason about.',
+        body:
+          'Each project reduces a manually fragile workflow to an explicit pipeline with inspectable stages and predictable execution.',
+      },
+    ],
+    preview: {
+      label: 'Pipeline topology',
+      state: 'planned',
+      message:
+        'A compact topology view of the three automation systems will appear here.',
+    },
+  },
+  {
+    id: 'onboarded',
+    name: 'Onboarded',
+    tagline: 'Full-stack monorepo & portal platform',
+    color: '#A78BFA',
+    status: 'active',
+    description:
+      'An Nx v22 monorepo with an Angular 20 portal, scoped workspace tooling, and a datagen CLI for AI training-data workflows.',
+    tech: ['Nx v22', 'Angular 20', 'Node.js', 'justfile'],
+    summary:
+      'A full-stack workspace focused on making monorepo structure, developer commands, and data-generation workflows coherent at project scale.',
+    sections: [
+      {
+        eyebrow: 'Platform',
+        title: 'One workspace, multiple engineering surfaces.',
+        body:
+          'Onboarded uses an Nx v22 monorepo to organize the Angular portal and supporting tooling behind one discoverable workspace model.',
+      },
+      {
+        eyebrow: 'Developer experience',
+        title: 'Make the right command obvious.',
+        body:
+          'The project standardizes scoped Nx syntax through justfile and Makefile workflows so contributors can operate the workspace without memorizing low-level command combinations.',
+        bullets: [
+          'Nx v22 monorepo',
+          'Angular 20 portal',
+          'Scoped Nx command conventions',
+          'justfile / Makefile developer tooling',
+          'datagen CLI for AI training-data generation',
+        ],
+      },
+      {
+        eyebrow: 'Architecture',
+        title: 'Tooling is part of the platform contract.',
+        body:
+          'The preview frames build commands, workspace boundaries, and generation utilities as first-class architecture rather than incidental repository scripts.',
+      },
+    ],
+    preview: {
+      label: 'Workspace explorer',
+      state: 'planned',
+      message:
+        'A lightweight monorepo topology and command explorer is planned for this route.',
+    },
+  },
+  {
+    id: 'eleanor',
+    name: 'Eleanor',
+    tagline: 'A new project, arriving shortly',
+    color: '#22D3EE',
+    status: 'coming-soon',
+    description:
+      'Eleanor is nearing release. This preview intentionally keeps the implementation under wraps while establishing a home for launch notes, architecture highlights, and an interactive demonstration.',
+    tech: ['Preview', 'Coming Soon'],
+    summary:
+      'A restrained pre-release preview for Eleanor: enough structure to establish the project on the portfolio without inventing or prematurely exposing implementation details.',
+    sections: [
+      {
+        eyebrow: 'Release',
+        title: 'Eleanor is almost ready to be introduced.',
+        body:
+          'The v1 portfolio includes Eleanor as a deliberately minimal pre-release card. Product details, technical architecture, and implementation notes should be filled from the released project itself rather than guessed in advance.',
+      },
+      {
+        eyebrow: 'Preview plan',
+        title: 'This route is already shaped for the launch.',
+        body:
+          'When Eleanor ships, this page can graduate in place: the hero, engineering narrative, implementation highlights, screenshots, and live demo surface can be populated without changing the project-card or routing architecture.',
+        bullets: [
+          'Release overview',
+          'Architecture highlights',
+          'Representative implementation decisions',
+          'Screenshots or interactive demo',
+          'Links to the public project when available',
+        ],
+      },
+      {
+        eyebrow: 'Status',
+        title: 'Coming soon.',
+        body:
+          'For version 1, the page acts as a polished teaser rather than presenting unsupported technical claims.',
+      },
+    ],
+    preview: {
+      label: 'Eleanor preview',
+      state: 'coming-soon',
+      message:
+        'Launch preview reserved. Eleanor will be released shortly.',
+    },
+  },
+];
+
+export const PROJECT_CARDS: readonly ProjectPreview[] =
+  PROJECT_PREVIEWS;
+
+export function getProjectPreview(
+  slug: string | null | undefined,
+): ProjectPreviewDetail | undefined {
+  if (!slug) return undefined;
+
+  const normalized = slug.trim().toLowerCase();
+
+  return PROJECT_PREVIEWS.find(
+    project => project.id === normalized,
+  );
+}
 
 export * from './site-defaults';

@@ -32,7 +32,7 @@ export type { ApiError, PaginatedResponse }                          from './inf
 export type {
   ProjectStatus, Project, CreateProjectInput, UpdateProjectInput,
   Skill, SkillCategory, HeroSettings, AvailabilitySettings,
-  SiteSettings, ContactMessage,
+  SiteSettings, ContactMessage, ProjectPreview, ProjectPreviewStatus, ProjectPreviewDetail, ProjectPreviewSection
 }                                                                     from './portfolio';
 
 // Analytics
@@ -51,5 +51,5 @@ export type {
 // Site 
 export type {
   SectionHeader, LandingHero, Capability, QuickFact, Experience, AboutBio, TimelineRole, AboutContent, ContactChannel, ContactContent, ContactHeader, ResponseTime, NewsletterTopic, NewsletterContent, NewsletterHeader, ProjectPreviewContent, ProjectsContent, RoiSection,
-  NavLink, FooterContent, SubscribeContent, SiteContent
+  NavLink, FooterContent, SubscribeContent, SiteContent, NotificationAudience, NotificationReadRecord, NotificationViewModel, NotificationStatus, AppNotification, NotificationType
 } from './site';

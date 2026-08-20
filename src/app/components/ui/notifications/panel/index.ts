@@ -8,7 +8,7 @@ import {
   output,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NotificationService } from '@core/services/notification';
+import { NotificationService } from '@services/notification';
 import { NotificationItem } from '../item';
  
 @Component({
@@ -32,6 +32,6 @@ export class NotificationPanel {
   }
  
   protected markAllRead(): void {
-    this.notifSvc.unread().forEach((n) => this.notifSvc.markRead(n.id));
+    this.notifSvc.unread().forEach((n: any) => this.notifSvc.markRead(n.id));
   }
 }
