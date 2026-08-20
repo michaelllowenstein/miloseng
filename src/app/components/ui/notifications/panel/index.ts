@@ -16,7 +16,7 @@ import { NotificationItem } from '../item';
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CommonModule, NotificationItem],
-  styleUrls: ['./index.scss'],
+  styleUrls: ['./index.css'],
   templateUrl: './index.html'
 })
 export class NotificationPanel {
