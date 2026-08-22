@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-
+const html2pdf = await import('html2pdf.js');
 @Component({
   selector: 'app-resume-button',
   standalone: true,
@@ -8,7 +8,7 @@ import { Component, Input } from '@angular/core';
 export class ResumeButton {
   @Input() variant: 'primary' | 'compact' | 'inline' = 'primary';
 
-  readonly href = 'assets/docs/resume.pdf';
+  readonly href = 'assets/docs/Resume.pdf';
   readonly filename = 'Michael_Lowenstein_Resume.pdf';
 
   onDownload(): void {

@@ -53,7 +53,7 @@ export const LANDING_DEFAULTS: LandingContent = {
     {
       period: '2022 – Present',
       title: 'Contractor / Technical Evaluator',
-      company: 'micro1',
+      company: 'micro1 & mercor',
       blurb: 'Comparative AI coding assistant benchmarks. Evaluating Claude Opus 4.5, GPT-4o, and GPT-5.2 across shared prompt suites in Cursor IDE.',
     },
     {
@@ -65,8 +65,8 @@ export const LANDING_DEFAULTS: LandingContent = {
     {
       period: '2019 – 2021',
       title: 'Full-Stack Developer',
-      company: 'FullStack Labs / 1280 Labs',
-      blurb: 'Full-stack development across client projects. ML regression library for House Analytics residential property valuation.',
+      company: 'FullStack Labs / House Analytics / NCAL',
+      blurb: 'Full-stack development across client projects. ML regression library for House Analytics residential property valuation, Invoice Automation Platform for NCAL.',
     },
   ],
 };
@@ -81,10 +81,7 @@ export const ABOUT_DEFAULTS: AboutContent = {
   },
   bio: {
     paragraphs: [
-      "I'm a Lead Software Engineer based in Calgary, AB, with expertise in microservices architecture, cloud infrastructure, and API development. Currently I hold concurrent engineering roles — as a Senior Consultant and Fullstack Principal Engineer at Norima (embedded with Millennial Specialty Insurance MGA), and as Lead Backend Software Engineer at Rogers Communications, where I lead the next-generation eCommerce platform.",
-      'At Norima, I lead production data-integrity remediation across a multi-generational insurance policy administration platform (MSI-PAS), authoring governed SQL remediation packages through formal DBA review processes, and investigating complex data corruption clusters categorized into a growing root-cause taxonomy. I also authored msi-nav, a data-driven CLI navigation and compliance scanning tool that lets developers locate any operation, product, status code, or queue across five repositories in under 60 seconds.',
-      "At Rogers, I own the design and implementation of mission-critical commerce services — product catalog, pricing, checkout, order orchestration — driving platform reliability through distributed caching, asynchronous messaging, and resiliency patterns. I manage and mentor a senior engineering team, establish CI/CD practices and observability strategies, and lead technical decision-making on data architecture, API contracts, and security across the commerce ecosystem.",
-      "Outside these roles, I contract as a Senior Software Engineer with 1280 Labs, leading the front-end for an AI-enabled Talent Management CRM and prototyping backend services across Go, Rust, Node.js, Python, and .NET Core. My career spans a decade of building everything from ETL pipelines with 99.8% financial accuracy to OAuth2/OIDC authentication infrastructures, distributed task scheduling systems, and enterprise-scale CQRS architectures.",
+      "I’m a Software Engineer based in Calgary, AB, currently working as a Fullstack Principal Engineer at Norima Consulting. My background spans backend and full-stack engineering, distributed systems, cloud infrastructure, API design, data architecture, and platform engineering across large-scale enterprise environments. My work focuses on the systems and technical decisions that sit underneath critical products: designing service boundaries, evolving APIs and data models, improving reliability and observability, modernizing legacy platforms, strengthening delivery practices, and helping engineering teams navigate complex architectural and operational challenges. Prior to Norima, I was Lead Backend Software Engineer at Rogers Communications, where I worked on large-scale commerce systems and the services responsible for core platform capabilities. Across consulting and product organizations, I’ve designed and delivered microservices, asynchronous processing systems, authentication infrastructure, data pipelines, developer tooling, CQRS architectures, and cloud-native applications. I remain deeply hands-on technically, while also contributing to architecture, engineering standards, technical planning, mentorship, and cross-team decision-making. I’m most effective in environments where the problems extend beyond a single application or service and require balancing implementation quality, system design, operational reliability, and long-term maintainability.",
     ],
   },
   quickFacts: [
@@ -104,7 +101,7 @@ export const ABOUT_DEFAULTS: AboutContent = {
       title: 'Senior Consultant — Fullstack Principal Engineer',
       company: 'Norima (Client: Millennial Specialty Insurance MGA)',
       description:
-        'Lead production data-integrity remediation across a multi-generational insurance policy administration platform (MSI-PAS). Author governed SQL remediation packages through formal DBA review. Investigate complex data corruption clusters spanning payment misapplication, snapshot flag corruption, and endorsement flow failures — categorized into a growing root-cause taxonomy (Clusters A–W). Author and maintain msi-nav, a CLI navigation and compliance scanning tool across five repositories.',
+        'Lead production data-integrity remediation across a multi-generational insurance policy administration platform. Author governed SQL remediation packages through formal DBA review. Investigate complex data corruption clusters spanning payment misapplication, snapshot flag corruption, and endorsement flow failures — categorized into a growing root-cause taxonomy (Clusters A–W). Author and maintain msi-nav, a CLI navigation and compliance scanning tool across five repositories.',
       tech: ['.NET', 'SQL Server', 'Vue', 'Bootstrap 5', 'CLI Tooling', 'DBA Review'],
     },
     {

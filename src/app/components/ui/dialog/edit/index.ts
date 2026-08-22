@@ -1,18 +1,18 @@
-
 import { Component, signal, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { injectDialogData, injectDialogClose } from '@factory/dialog/tokens';
 import { CmsService } from '@services/cms';
 
 export interface EditDialogData {
-  /** Firestore document path under siteContent/, e.g. "home/hero" */
   path: string;
-  /** If set, edit only this field. If null, edit all fields in the doc. */
   field: string | null;
-  /** Human-readable label for the content region. */
   label: string;
-  /** Field display type hint: 'text' | 'textarea' | 'rich' */
   fieldType: 'text' | 'textarea';
+  /**
+   * Pre-populated value from the live signal or DOM textContent.
+   * Avoids a separate DB read that may hit Firestore/RTDB mismatch.
+   */
+  currentValue?: string;
 }
 
 interface FieldEntry {
@@ -29,42 +29,28 @@ interface FieldEntry {
   styles: [],
 })
 export class EditDialog implements OnInit {
-  private cms = inject(CmsService);
+  private readonly cms = inject(CmsService);
 
-  data    = injectDialogData<EditDialogData>();
-  close   = injectDialogClose<boolean>();
-  fields  = signal<FieldEntry[]>([]);
-  loading = signal(true);
-  saving  = signal(false);
-  error   = signal('');
-  saved   = signal(false);
+  readonly data  = injectDialogData<EditDialogData>();
+  readonly close = injectDialogClose<boolean>();
 
-  async ngOnInit(): Promise<void> {
-    try {
-      if (this.data.field) {
-        // Single field edit
-        const value = await this.cms.getField(this.data.path, this.data.field);
-        this.fields.set([{
-          key:   this.data.field,
-          value,
-          type:  this.data.fieldType,
-        }]);
-      } else {
-        // Whole document edit
-        const doc = await this.cms.getDocument(this.data.path);
-        this.fields.set(
-          Object.entries(doc).map(([key, value]) => ({
-            key,
-            value,
-            type: value.length > 80 ? 'textarea' as const : 'text' as const,
-          }))
-        );
-      }
-    } catch (err) {
-      this.error.set('Failed to load content');
-    } finally {
-      this.loading.set(false);
-    }
+  readonly fields  = signal<FieldEntry[]>([]);
+  readonly loading = signal(true);
+  readonly saving  = signal(false);
+  readonly error   = signal('');
+  readonly saved   = signal(false);
+
+  ngOnInit(): void {
+    const fieldKey = this.data.field ?? this.data.label;
+    const initial  = this.data.currentValue ?? '';
+
+    this.fields.set([{
+      key:   fieldKey,
+      value: initial,
+      type:  this.data.fieldType,
+    }]);
+
+    this.loading.set(false);
   }
 
   async save(): Promise<void> {
@@ -73,21 +59,25 @@ export class EditDialog implements OnInit {
     this.saved.set(false);
 
     try {
-      if (this.data.field && this.fields().length === 1) {
-        await this.cms.saveField(this.data.path, this.data.field, this.fields()[0].value);
+      const entry = this.fields()[0];
+
+      if (this.data.field) {
+        await this.cms.saveField(
+          this.data.path,
+          this.data.field,
+          entry.value,
+        );
       } else {
-        const doc: Record<string, string> = {};
-        for (const f of this.fields()) {
-          doc[f.key] = f.value;
-        }
-        await this.cms.saveDocument(this.data.path, doc);
+        await this.cms.saveDocument(this.data.path, {
+          [entry.key]: entry.value,
+        });
       }
+
       this.saved.set(true);
-      // Auto-close after brief success flash
       setTimeout(() => this.close(true), 800);
     } catch (err) {
       this.error.set('Failed to save — check console for details');
-      console.error('[cms] Save failed:', err);
+      console.error('[EditDialog] Save failed:', err);
     } finally {
       this.saving.set(false);
     }
