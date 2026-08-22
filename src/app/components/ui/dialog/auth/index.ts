@@ -11,8 +11,9 @@ import { AuthService } from '@services/auth';
   styles: [],
 })
 export class AuthDialog {
-  private auth = inject(AuthService);
-  close    = injectDialogClose<boolean>();
+  private readonly auth: AuthService = inject(AuthService);
+  readonly close = injectDialogClose<boolean>();
+
   email    = '';
   password = '';
   loading  = signal(false);
@@ -20,6 +21,7 @@ export class AuthDialog {
 
   authenticate(): void {
     if (!this.email.trim() || !this.password.trim()) return;
+
     this.loading.set(true);
     this.error.set('');
 

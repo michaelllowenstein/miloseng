@@ -37,6 +37,17 @@
                    placeholder="ada&#64;example.com" [(ngModel)]="email" />
         </div>
 
+        @if (showTestFill) {
+        <button
+            class="w-full py-1.5 rounded border border-dashed border-signal/30
+                   bg-signal/5 font-mono text-[10px] text-signal/70
+                   hover:bg-signal/10 hover:text-signal transition-colors
+                   tracking-wider uppercase"
+            (click)="fillTestData()">
+            ⚙ Fill test data
+        </button>
+        }
+
         <button class="btn-primary w-full justify-center mt-2"
                 [disabled]="!email.trim()"
                 (click)="subscribe()">

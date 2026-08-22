@@ -29,26 +29,6 @@ import {
   EditDialogData,
 } from '@ui/dialog/edit';
 
-/**
- * Realtime scalar CMS field.
- *
- * Responsibilities:
- *  - subscribe to the RTDB scalar field through CmsService.fieldSignal()
- *  - render live value changes into the host element
- *  - preserve checked-in text as the fallback value
- *  - expose the CMS editing flow through right-click:
- *      ContextMenu -> AuthDialog -> EditDialog
- *
- * Usage:
- *
- * <h1
- *   cmsPath="contact/header"
- *   cmsField="headline">
- *   Let's connect
- * </h1>
- *
- * No separate appEditable directive is required for scalar cmsField nodes.
- */
 @Directive({
   selector: '[cmsField]',
   standalone: true,
@@ -56,55 +36,21 @@ import {
 export class CmsFieldDirective
   implements OnInit, OnDestroy {
 
-  private readonly cms =
-    inject(CmsService);
+  private readonly cms = inject(CmsService);
+  private readonly dialog = inject(DialogService);
+  private readonly auth = inject(AuthService);
+  private readonly element = inject(ElementRef<HTMLElement>);
+  private readonly renderer = inject(Renderer2);
+  private readonly destroyRef = inject(DestroyRef);
+  private readonly injector = inject(Injector);
+  private readonly platformId = inject(PLATFORM_ID);
 
-  private readonly dialog =
-    inject(DialogService);
-
-  private readonly auth =
-    inject(AuthService);
-
-  private readonly element =
-    inject(ElementRef<HTMLElement>);
-
-  private readonly renderer =
-    inject(Renderer2);
-
-  private readonly destroyRef =
-    inject(DestroyRef);
-
-  private readonly injector =
-    inject(Injector);
-
-  private readonly platformId =
-    inject(PLATFORM_ID);
-
-  readonly cmsPath =
-    input.required<string>();
-
-  readonly cmsField =
-    input.required<string>();
-
-  /**
-   * Explicit fallback. When omitted, the directive captures the checked-in
-   * textContent before the realtime listener is attached.
-   */
-  readonly cmsFallback =
-    input<string | null>(null);
-
-  /**
-   * Disable the right-click editor for a public CMS field while retaining the
-   * realtime read behavior.
-   */
-  readonly cmsEditable =
-    input<boolean>(true);
-
-  readonly cmsEditLabel =
-    input<string | null>(null);
-
-  readonly cmsEditType =
-    input<'text' | 'textarea'>('text');
+  readonly cmsPath = input.required<string>();
+  readonly cmsField = input.required<string>();
+  readonly cmsFallback = input<string | null>(null);
+  readonly cmsEditable = input<boolean>(true);
+  readonly cmsEditLabel = input<string | null>(null);
+  readonly cmsEditType = input<'text' | 'textarea'>('text');
 
   private value?: Signal<string>;
   private renderEffect?: EffectRef;
@@ -161,26 +107,22 @@ export class CmsFieldDirective
     element.classList.add('editable-region');
     element.style.cursor = 'context-menu';
 
-    this.contextHandler =
-      (event: MouseEvent): void => {
-        event.preventDefault();
-        event.stopPropagation();
+    this.contextHandler = (event: MouseEvent): void => {
+      event.preventDefault();
+      event.stopPropagation();
 
-        void this.openEditorFlow(
-          event.clientX,
-          event.clientY,
-        ).catch(error => {
-          console.error(
-            '[CmsFieldDirective] Failed to open CMS editor',
-            error,
-          );
-        });
-      };
+      void this.openEditorFlow(
+        event.clientX,
+        event.clientY,
+      ).catch(error => {
+        console.error(
+          '[CmsFieldDirective] Failed to open CMS editor',
+          error,
+        );
+      });
+    };
 
-    element.addEventListener(
-      'contextmenu',
-      this.contextHandler,
-    );
+    element.addEventListener('contextmenu', this.contextHandler);
   }
 
   private async openEditorFlow(
@@ -193,18 +135,11 @@ export class CmsFieldDirective
 
     const clampedX = Math.max(
       margin,
-      Math.min(
-        x,
-        window.innerWidth - menuWidth - margin,
-      ),
+      Math.min(x, window.innerWidth - menuWidth - margin),
     );
-
     const clampedY = Math.max(
       margin,
-      Math.min(
-        y,
-        window.innerHeight - menuHeight - margin,
-      ),
+      Math.min(y, window.innerHeight - menuHeight - margin),
     );
 
     const label =
@@ -215,69 +150,52 @@ export class CmsFieldDirective
       ContextMenu,
       ContextMenuData,
       string
-    >(
-      ContextMenu,
-      {
-        bare: true,
-        data: {
-          x: clampedX,
-          y: clampedY,
-          items: [{
-            label,
-          }]},
+    >(ContextMenu, {
+      bare: true,
+      data: {
+        x: clampedX,
+        y: clampedY,
+        items: [{ label }],
       },
-    );
+    });
 
     const action = await menuRef.closed;
-
-    if (action !== 'edit') {
-      return;
-    }
+    if (action !== 'edit') return;
 
     if (!this.auth.isAuthenticated()) {
       const authRef = this.dialog.open<
         AuthDialog,
         undefined,
         boolean
-      >(
-        AuthDialog,
-        {},
-      );
+      >(AuthDialog, {});
 
-      const authenticated =
-        await authRef.closed;
-
-      if (authenticated !== true) {
-        return;
-      }
+      const authenticated = await authRef.closed;
+      if (authenticated !== true) return;
     }
+
+    // Read the current value from the live RTDB signal — no separate DB call.
+    const currentValue = this.value?.() ?? '';
 
     const editRef = this.dialog.open<
       EditDialog,
       EditDialogData,
       boolean
-    >(
-      EditDialog,
-      {
-        data: {
-          path: this.cmsPath(),
-          field: this.cmsField(),
-          label,
-          fieldType: this.cmsEditType(),
-        },
-        disableClose: true,
+    >(EditDialog, {
+      data: {
+        path: this.cmsPath(),
+        field: this.cmsField(),
+        label,
+        fieldType: this.cmsEditType(),
+        currentValue,
       },
-    );
+      disableClose: true,
+    });
 
     await editRef.closed;
-
-    // No reload: the active RTDB listener updates this.value immediately.
   }
 }
 
-function humanizeFieldName(
-  field: string,
-): string {
+function humanizeFieldName(field: string): string {
   return field
     .replace(/([a-z0-9])([A-Z])/g, '$1 $2')
     .replace(/[-_]+/g, ' ')

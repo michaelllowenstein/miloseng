@@ -27,16 +27,10 @@ export const routes: Routes = [
     title: 'Projects'
   },
   {
-    path: 'projects/:slug/preview',
-    loadComponent: () =>
-      import('@page/preview')
-        .then(m => m.PreviewPage),
-    title: 'Project Preview',
-  },
-  {
     path: 'projects/:slug',
     loadComponent: () =>
-      import('@feature/project').then(m => m.ProjectComponent),
+      import('@page/preview').then(m => m.PreviewPage),
+    title: 'Project Preview',
   },
   {
     path: 'newsletter',

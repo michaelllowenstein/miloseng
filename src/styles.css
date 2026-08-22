@@ -42,6 +42,29 @@
 }
 
 @layer components {
+    .accent-word {
+        color: var(--color-accent, #20f58a);
+        white-space: nowrap;
+    }
+
+    .accent-word--separated {
+        margin-inline-start: 0.18em;
+    }
+
+    .display-heading {
+        --accent-gap: 0.16em;
+
+        margin: 0;
+        font-weight: 700;
+        letter-spacing: -0.035em;
+        line-height: 0.96;
+    }
+
+    .display-heading__accent {
+        color: var(--color-accent);
+        margin-inline-start: var(--accent-gap);
+    }
+
   .section-container {
     @apply max-w-6xl mx-auto px-6 md:px-12;
   }
@@ -56,7 +79,7 @@
   }
 
   .btn-primary {
-    @apply inline-flex items-center gap-2 px-6 py-3 bg-phosphor/10 text-phosphor 
+    @apply inline-flex items-center gap-2 px-6 py-3 bg-phosphor/10 text-phosphor
            border border-phosphor/30 rounded font-mono text-sm tracking-wide
            transition-all duration-300 hover:bg-phosphor/20 hover:border-phosphor/60
            hover:shadow-[0_0_20px_rgba(51,255,136,0.15)] active:scale-[0.98];
@@ -75,7 +98,7 @@
   }
 
   .input-field {
-    @apply w-full px-4 py-3 bg-abyss border border-steel/40 rounded 
+    @apply w-full px-4 py-3 bg-abyss border border-steel/40 rounded
            font-mono text-sm text-bone placeholder:text-steel
            focus:outline-none focus:border-phosphor/50 focus:ring-1 focus:ring-phosphor/20
            transition-colors duration-200;
@@ -126,24 +149,24 @@
     color: #C4CDD9;
     -webkit-font-smoothing: antialiased;
   }
- 
+
   .readable-high {
     color: #DDE3EB;
     -webkit-font-smoothing: antialiased;
   }
- 
+
   .readable-subtle {
     color: #A8B8CC;
     -webkit-font-smoothing: antialiased;
   }
- 
+
   /* Nested paragraph spacing inside readable containers */
   .readable-default p,
   .readable-high p,
   .readable-subtle p {
     @apply leading-[1.85];
   }
- 
+
   /* Links inside readable blocks stay phosphor */
   .readable-default a,
   .readable-high a,
@@ -159,15 +182,15 @@
     outline: 1px dashed transparent;
     outline-offset: 4px;
   }
- 
+
   .editable-region:hover {
     outline-color: rgba(51, 255, 136, 0.15);
   }
- 
+
   .editable-region:active {
     outline-color: rgba(51, 255, 136, 0.3);
   }
- 
+
 }
 
 @layer utilities {

@@ -45,10 +45,10 @@ export class EditableDirective implements OnInit, OnDestroy {
   private readonly platformId =
     inject(PLATFORM_ID);
 
-  private readonly dialog =
+  private readonly dialog: DialogService =
     inject(DialogService);
 
-  private readonly auth =
+  private readonly auth: AuthService =
     inject(AuthService);
 
   private contextHandler?: (event: MouseEvent) => void;
@@ -121,7 +121,7 @@ export class EditableDirective implements OnInit, OnDestroy {
         data: {
           x: clampedX,
           y: clampedY,
-          items: [ 
+          items: [
             {label: this.editLabel,}
           ]
         },
