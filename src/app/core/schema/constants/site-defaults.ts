@@ -243,6 +243,12 @@ export const PROJECTS_DEFAULTS: ProjectsContent = {
       description:
         'A modular CLI architecture built on aliaser.zsh, dev_tools.zsh, and sandbox_tools.zsh. Cross-machine config sync via dotfiles, SSH identity switching, and rg/fzf/bat pipelines for 3x faster code navigation.',
       tech: ['zsh', 'tmux', 'fzf', 'rg', 'WSL2'],
+      preview: {
+        label: 'Try Toolbox',
+        state: 'active',            // was 'coming-soon'
+        message: 'Live at toolbox.miloseng.com',
+        url: 'https://toolbox.miloseng.com',
+      },
     },
     {
       id: 'workflow',
@@ -253,6 +259,12 @@ export const PROJECTS_DEFAULTS: ProjectsContent = {
       description:
         'State-Mode Development methodology for decomposing UI state into explicit modes. ActivityWatch → local LLM → digest pipeline. Zellij multiplexer with persistent session architecture for cross-project context.',
       tech: ['TypeScript', 'Angular 20', 'Python', 'LLM APIs'],
+      preview: {
+        label: 'Try Toolbox',
+        state: 'active',            // was 'coming-soon'
+        message: 'Live at toolbox.miloseng.com',
+        url: 'https://toolbox.miloseng.com',
+      },
     },
     {
       id: 'autoval',
@@ -263,6 +275,12 @@ export const PROJECTS_DEFAULTS: ProjectsContent = {
       description:
         'Comparative benchmarks across Claude Opus 4.5, GPT-4o, and GPT-5.2 using a shared frontend/backend prompt suite in Cursor IDE. Includes the judge CLI — an LLM-powered code review tool via the Anthropic API.',
       tech: ['Anthropic API', 'Cursor IDE', 'TypeScript', 'Prompt Engineering'],
+      preview: {
+        label: 'Try AutoVal',
+        state: 'active',            // was 'coming-soon'
+        message: 'Live at autoval.miloseng.com',
+        url: 'https://autoval.miloseng.com',
+      },
     },
     {
       id: 'automation',
@@ -273,6 +291,12 @@ export const PROJECTS_DEFAULTS: ProjectsContent = {
       description:
         'ProxyMockApi (.NET 8/YARP) for chaos and resilience testing. ScraperJobRunner (Node.js 22) scheduled scraping pipeline. ermis-transcriber: 13-stage Whisper ASR normalization achieving 20/20 on the reference suite.',
       tech: ['.NET 8', 'YARP', 'Node.js 22', 'Whisper', 'Python'],
+      preview: {
+        label: 'Try Automation',
+        state: 'active',            // was 'coming-soon'
+        message: 'Live at automation.miloseng.com',
+        url: 'https://automation.miloseng.com',
+      },
     },
     {
       id: 'onboarded',
@@ -283,6 +307,12 @@ export const PROJECTS_DEFAULTS: ProjectsContent = {
       description:
         'Nx v22 monorepo with Angular 20 portal (@onboarded/portal). Fully scoped Nx CLI syntax with justfile/Makefile tooling. datagen CLI for AI training data generation.',
       tech: ['Nx v22', 'Angular 20', 'Node.js', 'justfile'],
+      preview: {
+        label: 'Try Onboarded',
+        state: 'active',            // was 'coming-soon'
+        message: 'Live at onboarded.miloseng.com',
+        url: 'https://onboarded.miloseng.com',
+      },
     },
   ],
 };
